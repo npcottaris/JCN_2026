@@ -1,3 +1,4 @@
+
 %Version 3.1 December 2024
 % See section 11 of the User Manual for version history
 %
@@ -55,7 +56,7 @@
 \usepackage{algorithmicx}%
 \usepackage{algpseudocode}%
 \usepackage{listings}%
-
+\usepackage{soul}
 \usepackage{framed}
 
 %%%%
@@ -111,7 +112,8 @@
 %
 % 150-250 words
 \abstract{
-Accurate image-computable models of retinal ganglion cell (RGC) mosaics across the retina do not currently exist. Here, we deploy a novel computational framework which synthesizes mosaics of linear spatio-chromatic receptive fields (RFs) of ON midget RGCs (mRGCs) by integrating published anatomical, physiological, and optical quality measurements. We use the synthesized mRGC mosaics to simulate both \emph{in vivo} and \emph{in vitro} physiological experiments and demonstrate the model's consistency with published data. The model enables computation of how visual performance is shaped by the representation of visual information provided by the linear spatiochromatic processing stage of midget RGCs. The developed computational framework carefully accounts for the effect of physiological optics on mRGC responses, enables comparison of \emph{in vivo} and \emph{in vitro} data, and allows exploration of how different assumptions about RF organization, such as selectivity for the type of cones pooled by the RF center mechanism, affect physiological responses and psychophysical performance. The open-source and freely available implementation provides a platform for understanding how the linear spatiochromatic receptive field representation of the mRGCs shapes visual performance, as well as a foundation for future work that incorporates response nonlinearities, temporal filtering, and extends to additional RGC mosaics. 
+\st{Accurate image-computable models of retinal ganglion cell (RGC) mosaics across the retina do not currently exist.}
+\textbf{Image-computable models of retinal ganglion cell (RGC) mosaics that are synthesized and constrained jointly by anatomical, physiological and physiological optics properties do not currently exist.} Here, we deploy a novel computational framework which synthesizes mosaics of linear spatio-chromatic receptive fields (RFs) of ON midget RGCs (mRGCs) by integrating published anatomical, physiological, and optical quality measurements, all varying with eccentricity. We use the synthesized mRGC mosaics to simulate both \emph{in vivo} and \emph{in vitro} physiological experiments and demonstrate the model's consistency with published data. The model enables computation of how visual performance is shaped by the representation of visual information provided by the linear spatiochromatic processing stage of midget RGCs. The developed computational framework carefully accounts for the effect of physiological optics on mRGC responses, enables comparison of \emph{in vivo} and \emph{in vitro} data, and allows exploration of how different assumptions about RF organization, such as selectivity for the type of cones pooled by the RF center mechanism, affect physiological responses and psychophysical performance. The open-source and freely available implementation provides a platform for understanding how the linear spatiochromatic receptive field representation of the mRGCs shapes visual performance, as well as a foundation for future work that incorporates response nonlinearities, temporal filtering, and extends to additional RGC mosaics. 
 }
 %
 % 4 to 6 keywords which can be used for indexing purposes.
@@ -157,6 +159,8 @@ The following points describe how our implementation achieves these goals.
 
 \item \emph{Extensible.} The current implementation is a linear spatial pooling model, a useful approximation for stimuli with modest contrast. The software's modular design provides a foundation for future extensions. We can incorporate known nonlinear properties that shape mRGC responses, including phototransduction effects \cite{Chen2024_PredictablyManipulatingPhotoreceptorLightResponses}; spatial and static nonlinearities, which often differ between ON and OFF pathways \cite{Freeman2015_NonLinearSpatialSummationMidgetOFF, Rieke2024_NonLinearSubunitsInRGCSurrounds, Raghavan2023_ContrastGainControlMacaqueLGN, Rieke2018_ONOFFSubunitAsymmetries}; temporal dynamics \cite{Benardete1997_PcellRF_LinearDynamics}; and response noise \cite{Croner93_RGCresponseVariability}. Furthermore, the mRGC model is a suitable base for developing models of other RGC types, such as parasol and bistratified cells \cite{Kling2024_FunctionalDiversityInOutputOfPrimateRetina}.
 \end{enumerate}
+
+
 %
 %
 %
@@ -917,6 +921,14 @@ Further, we showed that even under \emph{in-vitro} conditions, where the optics 
 %
 %
 %
+\subsection{Relation to previous modeling approaches}
+Linear models of midget RGCs have been developed by others. The recent paper by Somaratna and Freeman \cite{2025_RFconstructionOfMRGCsInPrimateRetina} employs a cascade of spatial and temporal filters to model the spatial filtering effect of optics, the temporal filtering by cones, and spatiotemporal filtering by horizontal, bipolar and ganglion cells. This model is defined analytically as a function of spatial and temporal frequency.
+
+ , both function-inspired, modeling the retinal circuitry as a cascade of linear spatio-temporal filters \cite{}  with and biophysics-inspired models. 
+
+
+Function-inspired models attempt to model RGCs by employing the typical linear--non-linear--Poisson (LNP) standard model \cite{Carandini2005_DoWeKnowWhatTheEarlyVisualSystemDoes} using three components: spatial and temporal linear filtering by the RF center and surround mechanisms, followed by a gain control non-linearity that operates on the linear sum of responses of the center and surround mechanisms, and finally a stochastic spike generation mechanism. Biophysically-inspired models on the other hand, attempt to model RGCs by modeling the complexity of synaptic and cellular properties of cells at different retinal layers (cones, horizontal, bipolar, amacrine, and ganglion cells) and the connectivity between these layers \cite{Hennig2002_InfluenceOfRetinalSubcircuitsOnRGCnonLinearity}. And th\cite{Ly2025_VirtualHumanRetina}.
+
 \subsection{Applications}
 
 We employed an early version of the current model to interpret measurements of foveal macaque mRGCs measured \emph{in-vivo} using adaptive optics \cite{Godat2022_FovealMidgetRGCs}. Specifically, the model allowed us to relate the adaptive optics measurements to \emph{in-vivo} measurements conducted under physiological optics. For this purpose, the ability to move back and forth between retinal and visual space-referred representations was critical. 
