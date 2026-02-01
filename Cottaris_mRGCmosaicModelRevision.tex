@@ -31,7 +31,7 @@
  
 %%\documentclass[pdflatex,sn-nature]{sn-jnl}% Style for submissions to Nature Portfolio journals
 %%\documentclass[pdflatex,sn-basic]{sn-jnl}% Basic Springer Nature Reference Style/Chemistry Reference Style
-\documentclass[pdflatex,sn-mathphys-num]{sn-jnl}% Math and Physical Sciences Numbered Reference Style
+\documentclass[lineno, pdflatex,sn-mathphys-num]{sn-jnl}% Math and Physical Sciences Numbered Reference Style
 %%\documentclass[pdflatex,sn-mathphys-ay]{sn-jnl}% Math and Physical Sciences Author Year Reference Style
 %%\documentclass[pdflatex,sn-aps]{sn-jnl}% American Physical Society (APS) Reference Style
 %%\documentclass[pdflatex,sn-vancouver-num]{sn-jnl}% Vancouver Numbered Reference Style
@@ -112,8 +112,7 @@
 %
 % 150-250 words
 \abstract{
-\st{Accurate image-computable models of retinal ganglion cell (RGC) mosaics across the retina do not currently exist.}
-\textbf{Image-computable models of retinal ganglion cell (RGC) mosaics that are synthesized and constrained jointly by anatomical, physiological and physiological optics properties do not currently exist.} Here, we deploy a novel computational framework which synthesizes mosaics of linear spatio-chromatic receptive fields (RFs) of ON midget RGCs (mRGCs) by integrating published anatomical, physiological, and optical quality measurements, all varying with eccentricity. We use the synthesized mRGC mosaics to simulate both \emph{in vivo} and \emph{in vitro} physiological experiments and demonstrate the model's consistency with published data. The model enables computation of how visual performance is shaped by the representation of visual information provided by the linear spatiochromatic processing stage of midget RGCs. The developed computational framework carefully accounts for the effect of physiological optics on mRGC responses, enables comparison of \emph{in vivo} and \emph{in vitro} data, and allows exploration of how different assumptions about RF organization, such as selectivity for the type of cones pooled by the RF center mechanism, affect physiological responses and psychophysical performance. The open-source and freely available implementation provides a platform for understanding how the linear spatiochromatic receptive field representation of the mRGCs shapes visual performance, as well as a foundation for future work that incorporates response nonlinearities, temporal filtering, and extends to additional RGC mosaics. 
+Image-computable models of retinal ganglion cell (RGC) mosaics synthesized and constrained jointly by anatomical, physiological and physiological optics properties and operating on stimuli defined by their spatial-spectral radiance, do not currently exist. Here, we deploy a novel computational framework which synthesizes mosaics of linear spatio-chromatic receptive fields (RFs) of ON midget RGCs (mRGCs) by integrating published anatomical, physiological, and optical quality measurements, all varying with eccentricity. We use the synthesized mRGC mosaics to simulate both \emph{in vivo} and \emph{in vitro} physiological experiments and demonstrate the model's consistency with published data. The model enables computation of how visual performance is shaped by the representation of visual information provided by the linear spatiochromatic processing stage of midget RGCs. The developed computational framework carefully accounts for the effect of physiological optics on mRGC responses, enables comparison of \emph{in vivo} and \emph{in vitro} data, and allows exploration of how different assumptions about RF organization, such as selectivity for the type of cones pooled by the RF center mechanism, affect physiological responses and psychophysical performance. The open-source and freely available implementation provides a platform for understanding how the linear spatiochromatic receptive field representation of the mRGCs shapes visual performance, as well as a foundation for future work that incorporates response nonlinearities, temporal filtering, and extends to additional RGC mosaics. 
 }
 %
 % 4 to 6 keywords which can be used for indexing purposes.
@@ -147,9 +146,7 @@ Second, the model must capture responses across a large portion of central retin
 
 Third, the model must integrate diverse data types, including optical, anatomical, and physiological measurements. A comprehensive formulation is necessary because retinal ganglion cell (RGC) responses are shaped by all three of these factors.
 
-Fourth, we aim for an extensible framework. The current implementation uses a linear spatiochromatic receptive field, which serves as a good initial approximation. The framework is designed to incorporate future extensions—such as response nonlinearities and additional RGC classes—to improve the model's accuracy over time.
-
-The following points describe how our implementation achieves these goals.
+Fourth, we aim for an extensible framework. The current implementation uses a linear spatiochromatic receptive field, which serves as a good initial approximation. The framework is designed to incorporate future extensions—such as response nonlinearities and additional RGC classes—to improve the model's accuracy over time. The following points describe how our implementation achieves these goals.
 \begin{enumerate}
 \item \emph{Separating representations.} Our mRGC model operates on the cone mosaic signals. This design isolates the post-receptoral circuitry (cone-to-mRGC), which is the pathway measured in \emph{in vitro} experiments where the eye's optics are removed \cite{Field2010_FunctionalConnectivitySingleCones,Wool2018_NonSelectingWiringMidgetRGC}. This separation is also valuable for interpreting experiments that use adaptive optics to eliminate optical blur \cite{Godat2022_FovealMidgetRGCs}. While the components are separable, our implementation integrates the optics, cone sampling, and mRGC circuitry into a complete, image-computable pipeline. This full pathway allows us to simulate the transformation of a visual stimulus into an mRGC response, matching the conditions of \emph{in vivo} measurements \cite{CronerKaplan1995_MandPcells, Lee2012_mRGCsurroundConeSpecificity, Reid1992_ConeInputsToMRGCs} and enabling predictions of human performance under natural viewing conditions.
 
@@ -187,6 +184,14 @@ The mRGC mosaic extension is composed of spatial receptive fields (RFs) whose ce
 
 A key challenge is the scarcity of \emph{in vitro} physiological data across the visual field which could be used to directly determine the wiring between the two mosaics. To address this, our algorithm primarily leverages more widely available \emph{in vivo} data for the optimization, while validating the model against \emph{in vitro} data where it exists. The resulting model is simultaneously consistent with cone light encoding, anatomical properties (including those of mRGCs and H1 horizontal cells), and both \emph{in vitro} and \emph{in vivo} physiological data. This makes the model versatile for simulating visual stimulation under \emph{in vivo}, \emph{in vitro}, and adaptive optics paradigms.
 
+
+\subsubsection{Relationship to previous computational models of RGCs}
+To our knowledge, no previous model of RGCs has attempted to realistically capture the effects of the front end encoding in the visual system, specifically the eccentricity and wavelength-varying nature of physiological optics, and the eccentricity-varying spatio-chromatic properties of the cone mosaic. Instead previous models of RGCs have either completely ignored the influence of optics \cite{Wohrer2009_VirtualRetina, Ly2025_VirtualHumanRetina}, or employed very simplistic models of the optics \cite{Freeman2025_RFconstructionOfMRGCsInPrimateRetina}. In addition, previous RGC models were designed to either operate directly the visual space, completely bypassing spatio-spectral filtering by the tri-chromatic cone mosaic \cite{Wohrer2009_VirtualRetina}, or have employed simplistic implementations of the cone mosaic \cite{Freeman2025_RFconstructionOfMRGCsInPrimateRetina}. Finally, none of the previous models are constructed to operate on stimuli defined in physical units of their spatial-spectral radiance as they are designed to operate on intensity-varying stimuli \cite{Freeman2025_RFconstructionOfMRGCsInPrimateRetina, Wohrer2009_VirtualRetina}. As such, previous models can not capture the rich spatio-chromatic interactions between stimuli and physiological optics, and how their combined effect shape  RGC responses. Indeed, we have recently shown that this interaction can have profound effects of the response properties of midget ganglion cells \cite{Cottaris2024_mRGCs_ConeSelectiveOrNot}. 
+
+On the other hand, previous computational models of RGCs have focused on other, also important, components of the RGC circuit, that our linear spatio-chromatic model does not currently address, such as the impact of processing by retinal interneurons \cite{ Hennig2002_InfluenceOfRetinalSubcircuitsOnRGCnonLinearity, Wohrer2009_VirtualRetina, Freeman2025_RFconstructionOfMRGCsInPrimateRetina, Ly2025_VirtualHumanRetina} temporal dynamics \cite{ Hennig2002_InfluenceOfRetinalSubcircuitsOnRGCnonLinearity, Wohrer2009_VirtualRetina, Freeman2025_RFconstructionOfMRGCsInPrimateRetina, Ly2025_VirtualHumanRetina}, contrast grain control \cite{Pillow2005_PredictionDecodingRGCresponsesProbabilisticSpikingModel, Wohrer2009_VirtualRetina}, and spike generation \cite{Pillow2005_PredictionDecodingRGCresponsesProbabilisticSpikingModel, Wohrer2009_VirtualRetina, Ly2025_VirtualHumanRetina}. We plan to extend our linear spatiochromatic model of mRGCs to include several of these components as we describe in section \ref{Section:Extensions}.
+
+
+\subsubsection{Paper organization}
 The remainder of this paper is organized as follows.
 \begin{itemize}
     \item In section \ref{Section:Methods} we describe the model's construction stages, including, how the mRGC receptive field lattice is generated from anatomical data (section \ref{Section:Methods_GeneratingLattices}), how cones get connected to the mRGC RF centers using anatomical and physiological constraints (section \ref{Section:ConnectingConesToRGCRFcenters}), and how cone connections to mRGC RF surrounds are derived by optimizing against \emph{in vivo} data (section \ref{Section:ConnectingConesToRGCRFsurrounds}).
@@ -231,8 +236,9 @@ We begin by generating a lattice that represents the $(x,y)$ positions of mRGC R
 {\bf{Eccentricity-varying mRGC RF position lattices.}} 
 \textbf{A:} Meridian density functions of mRGC RFs \cite{Watson2014_RGCmodel}. 
 \textbf{B:} Two-dimensional mRGC RF density map obtained by interpolating the four meridian density functions. 
-\textbf{C:} Achieved and target densities of mRGC RF centers along the horizontal meridian (green disks and white dashed line). 
-\textbf{D \& E:} Examples of $2^{\circ} \times 1^{\circ}$ mosaics of mRGC RF centers at eccentricities of 0$^\circ$ and 20$^\circ$, respectively, along the temporal meridian.}
+\textbf{C:} Achieved and target densities of mRGC RF centers along the horizontal meridian (green disks and white dashed line, respectively). 
+\textbf{D \& E:} Examples of $2^{\circ} \times 1^{\circ}$ mosaics of mRGC RF centers at eccentricities of 0$^\circ$ and 20$^\circ$, respectively, along the temporal meridian.
+\textbf{F:} Achieved and target densities of cones along the horizontal meridian (purple disks and white dashed line, respectively).}
 \label{Fig:LatticeGenerationOverview}
 \end{figure}
 %
@@ -244,6 +250,8 @@ We begin by generating a lattice that represents the $(x,y)$ positions of mRGC R
     %
     \item \textbf{Stage 1C}. We synthesize a sampling lattice that represents the mRGC RF center positions. The lattice is created using the iterative algorithm that we introduced earlier \cite{Cottaris2019_Optics_ConeMosaic_InferenceEngine} for generating cone mosaics, replacing the two-dimensional cone density map with the target mRGC RF density map. A typical lattice of mRGC RF positions is obtained after about 1,300 iterations and has a density that varies smoothly over space, matching the target density, as illustrated in Fig. ~\ref{Fig:LatticeGenerationOverview}C. Example patches of mRGC RF center mosaics synthesized at eccentricities of 0$^{\circ}$ and 20$^{\circ}$ along the temporal horizontal meridian, are depicted in Figs.~\ref{Fig:LatticeGenerationOverview}D \& E, respectively.
 \end{itemize}
+
+The same procedure is used to generate a lattice that represents the $(x,y)$ positions of cones, but, in this case, using the meridian densities of cone photoreceptors in human retina \cite{Curcio1990_HumanConeMosaic} as targets. The density of cones in the synthesized cone lattice also varies smoothly over space and matches closely the target cone density, as illustrated in Fig. ~\ref{Fig:LatticeGenerationOverview}F.
 %
 %
 %
@@ -365,7 +373,7 @@ In the final sub-stage of establishing the mRGC RF center wiring to the cone mos
 %
 Fig.~\ref{Fig:Results_CenterConnectedMosaicsOverlap}A depicts how a progressively increasing overlap in neighboring mRGC RF centers with eccentricity, is accomplished by varying the exponent of the supra-Gaussian distribution. In central retina, the exponent is kept at 10, which results in a flat top distribution of weights with minimal overlap between neighboring RF centers (gray histograms in the inset of Fig.~\ref{Fig:Results_CenterConnectedMosaicsOverlap}A). As eccentricity increases beyond 7$^\circ$, the exponent decreases, reaching a value of 2 (Gaussian) at around 15$^\circ$, which results in Gaussian distributions of weights with significant overlap between neighboring RF centers (red histograms in the inset of Fig.~\ref{Fig:Results_CenterConnectedMosaicsOverlap}A). 
 
-\textbf{To our knowledge, there is no physiological data on the variation with eccentricity of the divergence of cone connections to nearby mRGC RF centers. Therefore the varying, with eccentricity, super Gaussian distribution of cone weights is an arbitrary mechanism which we employed} to capture the fact that in the fovea, input to mRGC RF centers comes exclusively or mostly \cite{Kolb2003_TheMidgetPathwaysInPrimateRetina, McMahon2000_FineStructureParvocellularRFs} from a single cone, whereas in the periphery, \emph{in vitro} measurements reveal that neighboring mRGC RF centers abut at approximately one standard deviation of their Gaussian RF profile \cite{Gauthier2009_ON_OFF_Overlap}. 
+To our knowledge, there is no physiological data on the variation with eccentricity of the divergence of cone connections to nearby mRGC RF centers. Therefore the varying, with eccentricity, super Gaussian distribution of cone weights is an arbitrary mechanism. It's intent is to capture the fact that in the fovea, input to mRGC RF centers comes exclusively or mostly \cite{Kolb2003_TheMidgetPathwaysInPrimateRetina, McMahon2000_FineStructureParvocellularRFs} from a single cone, whereas in the periphery, \emph{in vitro} measurements reveal that neighboring mRGC RF centers abut at approximately one standard deviation of their Gaussian RF profile \cite{Gauthier2009_ON_OFF_Overlap}. 
 
 The transformation of cone pooling weights from binary and mutually exclusive to graduated and shared is depicted in Fig.~\ref{Fig:Results_CenterConnectedMosaicsOverlap}B for an mRGC located at an eccentricity of 12$^{\circ}$, with gray and blue histograms depicting spatial distributions of cone pooling weights in this cell before and after sub-stage 2C.
 %
@@ -390,7 +398,7 @@ Finally, Fig.~\ref{Fig:Results_CenterConnectedMosaicsOverlap}F provides a visual
 \subsection{Connecting cones to mRGC RF surrounds (Stage 3)} \label{Section:ConnectingConesToRGCRFsurrounds}
 %
 \subsubsection*{Overview}
-In the last stage of mRGC mosaic synthesis, we derive the cone pooling weights for the mRGC RF surrounds. Since there are no clear anatomical data on surround sizes, these weights are determined using \textit{in vivo} characterizations of the visual space--referred spatial transfer function (vSTF) of mRGCs in the macaque \cite{CronerKaplan1995_MandPcells}, which are available as a function of eccentricity. 
+In the last stage of mRGC mosaic synthesis, we derive the cone pooling weights for the mRGC RF surrounds. Since there are no clear anatomical data on surround sizes, these weights are determined using \textit{in vivo} characterizations of the visual space--referred spatial transfer function, $\mathbf{vSTF(\omega)}$, i.e., a cell's response amplitude as a function of spatial frequency, $\omega$, in macaque mRGCs \cite{CronerKaplan1995_MandPcells}, which are available as a function of eccentricity. 
 
 We incorporate these data into the model using numerical optimization. More specifically, we determine the cone-to-mRGC RF surround connections such that a forward simulation of the \textit{in vivo} physiological experiments of of Croner \& Kaplan \cite{CronerKaplan1995_MandPcells} through the model best reproduces the experimental data. This approach allows us to use data collected through physiological optics, which blur the stimulus in an eccentricity and wavelength dependent manner, to determine the wiring of cones to mRGC RF surrounds. 
 
@@ -399,9 +407,9 @@ Importantly, the optimization is achieved while adhering to the already establis
 Stage 3 proceeds in three sub-stages. 
 %
 \begin{itemize}
-    \item \textbf{Stage 3A: computation of visual space--referred cone mosaic responses to stimuli used to measure vSTFs in macaque mRGCs}.  We begin by computing cone mosaic responses to gratings of different spatial frequencies delivered to the retina via human physiological optics \cite{Polans2015_PhysiologicalOptics}, as a proxy of how macaque optics blur the stimuli. This step is necessary for us to use the \emph{in vivo} data of Croner \& Kaplan \cite{CronerKaplan1995_MandPcells}, which were collected with stimuli viewed through the animal's natural optics.
+    \item \textbf{Stage 3A: computation of visual space--referred cone mosaic responses to stimuli used to measure $\mathbf{vSTF}$s in macaque mRGCs}.  We begin by computing cone mosaic responses to gratings of different spatial frequencies delivered to the retina via human physiological optics \cite{Polans2015_PhysiologicalOptics}, as a proxy of how macaque optics blur the stimuli. This step is necessary for us to use the \emph{in vivo} data of Croner \& Kaplan \cite{CronerKaplan1995_MandPcells}, which were collected with stimuli viewed through the animal's natural optics.
 % 
-    \item \textbf{Stage 3B: optimization of surround cone pooling functions for a subset of target synthetic mRGCs}. We choose a set of target cells that span the extent of the synthesized mRGC mosaic, and optimize the surround cone pooling functions for each. This optimization is done so that the ensuing target cells have (a) vSTF characteristics that are well approximated by a Difference of Gaussians (DoG) model, (b) have fitted DoG model parameters reasonably matching those reported by Croner \& Kaplan for eccentricities corresponding to the eccentricity of the target cells, and (c) have surround cone pooling weights that maintain macaque H1-like spatial properties as characterized by Packer \& Dacey.
+    \item \textbf{Stage 3B: optimization of surround cone pooling functions for a subset of target synthetic mRGCs}. We choose a set of target cells that span the extent of the synthesized mRGC mosaic, and optimize the surround cone pooling functions for each. This optimization is done so that the ensuing target cells (a) have $\mathbf{vSTF}$ characteristics that are well approximated by a Difference of Gaussians model, with model parameters reasonably matching those reported by Croner \& Kaplan at corresponding eccentricities, and (b) have surround cone pooling weights that maintain macaque H1-like spatial properties as characterized by Packer \& Dacey.
     %
     \item \textbf{Stage 3C: computation of surround cone pooling weights for all cells in  the synthesized mRGC mosaic}. Once the surround cone pooling functions are derived for the target synthetic mRGCs, surround pooling weights for all cells in the synthesized mRGC mosaic are computed by interpolation. A small amount of jitter in the ratio of the surround to center weights is added to simulate the variance in integrated surround to center ratio at each eccentricity seen in the macaque data.
 \end{itemize}
@@ -427,14 +435,14 @@ In these computations, we employ human physiological optics matched to the eccen
 \subsubsection{Deriving  surround cone pooling functions for a subset of target synthetic mRGCs (Stage 3B)}
 \label{Section:ConnectingConesToRGCRFsurrounds_Stage3B}
 
-Croner \& Kaplan reported summaries of spatial RF characteristics across populations of mRGCs at different eccentricities, which were derived by fitting a Difference of Gaussian (DoG) model to the measured vSTFs, and tabulated the variation of the DoG parameters with eccentricity. 
-The DoG model defined in spatial frequency, $\omega$, domain is given by:
+Croner \& Kaplan reported summaries of spatial RF characteristics across populations of mRGCs at different eccentricities, which were derived by fitting a Difference of Gaussian model to the measured $\mathbf{vSTF}$, and tabulated the variation of the model's parameters with eccentricity. 
+The $\mathbf{DoG}$ model defined in spatial frequency, $\omega$, domain is given by:
 \begin{equation}
-DOG(\omega) = K_c \cdot R_c^2 \cdot \exp{ [-\pi \cdot R_c \cdot \omega]^2 } - K_s \cdot R_s^2 \cdot \exp{ [-\pi \cdot R_s \cdot \omega]^2 }
+\mathbf{DoG}(\omega) = K_c \cdot R_c^2 \cdot \exp{ [-\pi \cdot R_c \cdot \omega]^2 } - K_s \cdot R_s^2 \cdot \exp{ [-\pi \cdot R_s \cdot \omega]^2 }
 \end{equation}
 where $K_c$ and $K_s$ are the peak sensitivities of the RF center and RF surround mechanisms, and $R_c$ and $R_s$ are the corresponding characteristic radii. 
 
-The vSTF of a typical macaque mRGC is depicted in  Fig.~\ref{Fig:SurroundConnectivityOverview}A with cyan disks. The solid heavy line depicts the fitted DoG model, with the component center and surround vSTFs depicted by the thin solid and dashed lines, respectively.
+The $\mathbf{vSTF}$ of a typical macaque mRGC is depicted in  Fig.~\ref{Fig:SurroundConnectivityOverview}A with cyan disks. The solid heavy line depicts the fitted model, with the component center and surround $\mathbf{vSTF}$s depicted by the thin solid and dashed lines, respectively.
 %
 %
 \begin{figure}[!ht]
@@ -443,42 +451,42 @@ The vSTF of a typical macaque mRGC is depicted in  Fig.~\ref{Fig:SurroundConnect
 \caption{
 \textbf{Derivation of cone weights to mRGC surrounds}.
 %
-\textbf{A:} Typical macaque mRGC vSTF (cyan disks) fitted with a Difference of Gaussians (DoG) model (thick black line). The component center and surround vSTFs are depicted by the thin black and the dashed lines, respectively.
+\textbf{A:} Typical macaque mRGC $\mathbf{vSTF}$ (cyan disks) fitted with a Difference of Gaussians model (thick black line). The component center and surround $\mathbf{vSTF}$s are depicted by the thin black and the dashed lines, respectively.
 %
-\textbf{B1 \& B2:} Ratios of surround to center characteristic radii, $R_s/R_c$, and ratios of surround to center integrated sensitivities, $(K_s/K_c \times R_s^2/R_c^2)$ as a function of eccentricity in the population of mRGCs recorded by Croner \& Kaplan \cite{CronerKaplan1995_MandPcells}. The dashed lines represent the trends in these two ratios as a function of eccentricity. The cyan disks depict the ratios for the example vSTF depicted in A.
+\textbf{B1 \& B2:} Ratios of surround to center characteristic radii, $R_s/R_c$, and ratios of surround to center integrated sensitivities, $(K_s/K_c \times R_s^2/R_c^2)$ as a function of eccentricity in the population of mRGCs recorded by Croner \& Kaplan \cite{CronerKaplan1995_MandPcells}. The dashed lines represent the trends in these two ratios as a function of eccentricity. The cyan disks depict the ratios for the example $\mathbf{vSTF}$ depicted in A.
 %
-\textbf{C:} Depiction of the iterative estimation of surround cone pooling weights by forward simulation of the Croner \& Kaplan vSTF measurements.  See description in text.
+\textbf{C:} Depiction of the iterative estimation of surround cone pooling weights by forward simulation of the Croner \& Kaplan $\mathbf{vSTF}$  measurements.  See description in text.
 }
 \label{Fig:SurroundConnectivityOverview}
 \end{figure}
 %
 %
-The shape of the vSTF is determined by two key measures, the ratio of surround to center characteristic radii, $R_s/R_c$, and the ratio of surround to center integrated sensitivities, $K_s/K_c \times (R_s/R_c)^2$. The distributions of these two ratios as a function of eccentricity in the population of mRGCs recorded by Croner \& Kaplan are depicted by the gray squares in Figs~\ref{Fig:SurroundConnectivityOverview}B1 \& \ref{Fig:SurroundConnectivityOverview}B2. The mean variation in these two ratios, shown as dashed lines, are the target values used to derive the surround cone pooling weights in the synthetic mRGCs.
+The shape of the $\mathbf{vSTF}$ is determined by two key measures, the ratio of surround to center characteristic radii, $R_s/R_c$, and the ratio of surround to center integrated sensitivities, $K_s/K_c \times (R_s/R_c)^2$. The distributions of these two ratios as a function of eccentricity in the population of mRGCs recorded by Croner \& Kaplan are depicted by the gray squares in Figs~\ref{Fig:SurroundConnectivityOverview}B1 \& \ref{Fig:SurroundConnectivityOverview}B2. The mean variation in these two ratios, shown as dashed lines, are the target values used to derive the surround cone pooling weights in the synthetic mRGCs.
 %
 %
 
-The optimization process is illustrated schematically in Fig.~\ref{Fig:SurroundConnectivityOverview}C. The vSTF of the target synthetic mRGC is computed by forward simulation of the experiment of Croner \& Kaplan. The time courses of responses of L-- and M--cones from the input cone mosaic to a drifting grating stimulus of spatial frequency $\omega$, $R_{\tiny \mbox{cones}}(\omega,t)$, (computed in Stage 3A) are depicted by the red and green traces in the rectangular panel of Fig.~\ref{Fig:SurroundConnectivityOverview}C. A spatially weighted sum of these cone responses using the RF center cone pooling weights (computed in Stage 2), is used to compute the response of the RF center, $R_{\tiny \mbox{center}}(\omega,t)$. This operation, which is depicted by the red computation arm in Fig.~\ref{Fig:SurroundConnectivityOverview}C, is fixed throughout the optimization of the surround.
+The optimization process is illustrated schematically in Fig.~\ref{Fig:SurroundConnectivityOverview}C. The $\mathbf{vSTF}$ of the target synthetic mRGC is computed by forward simulation of the experiment of Croner \& Kaplan. The time courses of responses of L-- and M--cones from the input cone mosaic to a drifting grating stimulus of spatial frequency $\omega$, ${\mathrm R}_{\mathrm {cones}}(\omega,t)$, (computed in Stage 3A) are depicted by the red and green traces in the rectangular panel of Fig.~\ref{Fig:SurroundConnectivityOverview}C. A spatially weighted sum of these cone responses using the RF center cone pooling weights (computed in Stage 2), is used to compute the response of the RF center, ${\mathrm R}_{\mathrm {center}}(\omega,t)$. This operation, which is depicted by the red computation arm in Fig.~\ref{Fig:SurroundConnectivityOverview}C, is fixed throughout the optimization of the surround.
 
 In the computation of the spatial distribution of surround cone pooling weights, we impose a parametric form that is described by the sum of a narrow and a wide exponential components, based on characterizations of the spatial RF properties of H1 horizontal cells by Packer \& Dacey \cite{PackerDacey2002_H1cellSpatialRFs}:
 \begin{equation}
-W_s(r) = K_{\mathrm{wide}} \times \exp \left [ -r/R_{\mathrm{wide}} \right] + K_{\mathrm{narrow}} \times \exp \left [ -r/R_{\mathrm{narrow}} \right]
+{\mathbf W}_s(r) = K_{\mathrm{wide}} \times \exp \left [ -r/R_{\mathrm{wide}} \right] + K_{\mathrm{narrow}} \times \exp \left [ -r/R_{\mathrm{narrow}} \right]
 \end{equation}
 where $r$ is the radial distance from the RF center, $K_{\mathrm{wide}}$ and $K_{\mathrm{narrow}}$ are the peak sensitivities of the wide and the narrow components, respectively, and $R_{\mathrm{wide}}$ and $R_{\mathrm{narrow}}$ are the corresponding characteristic radii. 
 
-Beginning with a random initial value for the parameters of the double exponential distribution, we compute an initial estimate of the surround cone weights by evaluating $W_s(r)$ at the vicinity of the input cone mosaic that surrounds the RF center. These weights are depicted in the top-left circular panel of Fig.~\ref{Fig:SurroundConnectivityOverview}C (labeled as $i = 1$, with $i$ denoting iteration). Using these initial weights we compute a weighted sum of the surround cone responses to derive the initial estimate of the surround response, $R_{\tiny \mbox{surround}}(\omega,t)$ This operation is depicted by the blue computation arm in Fig.~\ref{Fig:SurroundConnectivityOverview}C.
+Beginning with a random initial value for the parameters of the double exponential distribution, we compute an initial estimate of the surround cone weights by evaluating $\mathbf W_s(r)$ at the vicinity of the input cone mosaic that surrounds the RF center. These weights are depicted in the top-left circular panel of Fig.~\ref{Fig:SurroundConnectivityOverview}C (labeled as $i = 1$, with $i$ denoting iteration). Using these initial weights we compute a weighted sum of the surround cone responses to derive the initial estimate of the surround response, $R_{\mathrm{surround}}(\omega,t)$ This operation is depicted by the blue computation arm in Fig.~\ref{Fig:SurroundConnectivityOverview}C.
 
 The composite response of the synthesized mRGC is obtained by instantaneously subtracting the surround response from the center response, as follows: 
 \begin{equation}
-R_{\tiny {\mbox{mRGC}}}(\omega, t) = R_{\tiny {\mbox{center}}}(\omega, t) - R_{\tiny {\mbox{surround}}}(\omega, t)
+{\mathrm R}_{\mathrm{mRGC}}(\omega, t) = {\mathrm R}_{\mathrm{center}}(\omega, t) - {\mathrm R}_{\mathrm{surround}}(\omega, t)
 \end{equation}
 \noindent
-The amplitude modulation of $R_{\tiny {\mbox{mRGC}}}(\omega, t)$ is taken as the value of the vSTF at the examined spatial frequency, $STF_{\tiny {\mbox{mRGC}}}(\omega)$. Repeating over a range of spatial frequencies, we obtain the initial estimate of the full vSTF, which is depicted by the gray disks in the top-right rectangular panel of Fig.~\ref{Fig:SurroundConnectivityOverview}C, labeled as $i = 1$. 
+The amplitude modulation of ${\mathrm R}_{\mathrm{mRGC}}(\omega, t)$ is taken as the value of the $\mathbf{vSTF}$ at the examined spatial frequency, $STF_{\mathrm{mRGC}}(\omega)$. Repeating over a range of spatial frequencies, we obtain the initial estimate of the full $\mathbf{vSTF}$, which is depicted by the gray disks in the top-right rectangular panel of Fig.~\ref{Fig:SurroundConnectivityOverview}C, labeled as $i = 1$. 
 
-Following the experimental procedure of Croner \& Kaplan, we fit the computed $STF_{\tiny {\mbox{mRGC}}}(\omega)$ with a DoG model. This fit is depicted by the solid gray line in the top-right rectangular panel of Fig.~\ref{Fig:SurroundConnectivityOverview}C. Note that the DoG model fit is constrained so that its shape parameters, $R_s/R_c$, and $K_s/K_c \times R_s^2/R_c^2$, both lie within a narrow range of the mean values of $R_s/R_c$, and $K_s/K_c \times R_s^2/R_c^2$ ratios reported for macaque mRGCs at corresponding eccentricities \cite{CronerKaplan1995_MandPcells}. At the first iteration, the  residual between the computed vSTF and the DoG model fit to it, is large.
+Following the experimental procedure of Croner \& Kaplan, we fit the computed $STF_{\mathrm{mRGC}}(\omega)$ with a DoG model. This fit is depicted by the solid gray line in the top-right rectangular panel of Fig.~\ref{Fig:SurroundConnectivityOverview}C. Note that the DoG model fit is constrained so that its shape parameters, $R_s/R_c$, and $K_s/K_c \times R_s^2/R_c^2$, both lie within a narrow range of the mean values of $R_s/R_c$, and $K_s/K_c \times R_s^2/R_c^2$ ratios reported for macaque mRGCs at corresponding eccentricities \cite{CronerKaplan1995_MandPcells}. At the first iteration, the  residual between the computed $\mathbf{vSTF}$ and the DoG model fit to it, is large.
 
-This residual, depicted by the yellow bar in the right-most panel of Fig.~\ref{Fig:SurroundConnectivityOverview}C, serves as an error signal. The optimization algorithm minimizes this error signal by adjusting the parameters of $W_s(r)$, which controls the surround weights, with the additional constraint that the parameters of $W_s(r)$ remain within a range of the values reported in macaque H1 horizontal cells \cite{PackerDacey2002_H1cellSpatialRFs}. 
+This residual, depicted by the yellow bar in the right-most panel of Fig.~\ref{Fig:SurroundConnectivityOverview}C, serves as an error signal. The optimization algorithm minimizes this error signal by adjusting the parameters of $\mathbf W_s(r)$, which controls the surround weights, with the additional constraint that the parameters of $\mathbf W_s(r)$ remain within a range of the values reported in macaque H1 horizontal cells \cite{PackerDacey2002_H1cellSpatialRFs}. 
 
-The optimized surround cone pooling function is obtained when the residual between the computed and fitted vSTFs reaches a minimum value, labeled as $i = N$, in Fig.~\ref{Fig:SurroundConnectivityOverview}C. Additional details about this surround optimization method are provided in Supplemental Section \ref{Section:SupplementalMethods_Stage3B}.
+The optimized surround cone pooling function is obtained when the residual between the computed and fitted $\mathbf{vSTF}$s reaches a minimum value, labeled as $i = N$, in Fig.~\ref{Fig:SurroundConnectivityOverview}C. Additional details about this surround optimization method are provided in Supplemental Section \ref{Section:SupplementalMethods_Stage3B}.
 %
 %
 %
@@ -510,11 +518,11 @@ The final step in the generation of the mRGC RF surrounds is to apply a noisy sc
 
 A fully synthesized mRGC mosaic consists of two connectivity matrices: $\mathbf{W}_{\mathrm{center}}(i,k)$, determined in synthesis stage 2, and $\mathbf{W}_{\mathrm{surround}}(i,k)$, determined in synthesis stage 3, which capture the weights by which the RF center and surround, respectively, of the $k^{th}$-- cell in the mRGC mosaic pools signals from the $i^{th}$ cone in the input cone mosaic.
 
-Since the current version of the mRGC model does not contain a temporal component, the response of the $k^{th}$-- mRGC to some stimulus at time instant, $t$, $R_{\mathrm{stim}}(k,t)$, is computed instantaneously from the response of the input cone mosaic to that stimulus at time $t$, $\mathbf{C}_{\mathrm{stim}}(:,t)$,  as follows:
+Since the current version of the mRGC model does not contain a temporal component, the response of the $k^{th}$-- mRGC to some stimulus at time instant, $t$, $\mathbf R_{\mathrm{stim}}(k,t)$, is computed instantaneously from the response of the input cone mosaic to that stimulus at time $t$, $\mathbf{C}_{\mathrm{stim}}(:,t)$,  as follows:
 %
 \begin{equation}
 \begin{split}
-R_{\mathrm{stim}}(k,t) & = \displaystyle \frac{1}{\displaystyle \sum_{i=1} \mathbf{W}_{\mathrm{center}}(i,k)} \times  \dots \\
+{\mathbf R}_{\mathrm{stim}}(k,t) & = \displaystyle \frac{1}{\displaystyle \sum_{i=1} \mathbf{W}_{\mathrm{center}}(i,k)} \times  \dots \\
 &  \left( \sum_{i=1} \mathbf{W}_{\mathrm{center}}(i,k) \cdot \mathbf{C}_{\mathrm{stim}}\left(i, t \right) -
 \sum_{j=1} \mathbf{W}_{\mathrm{surround}}(j,k) \cdot \mathbf{C}_{\mathrm{stim}} \left(j, t \right) \right )
 \end{split}
@@ -524,7 +532,7 @@ R_{\mathrm{stim}}(k,t) & = \displaystyle \frac{1}{\displaystyle \sum_{i=1} \math
 To mimic adaptation to the background stimulus, the mRGC mosaic typically operates on cone contrast responses, instead of cone excitation responses, so the $\mathbf{C}_{\mathrm{stim}}(:,t)$ term in the above equation is computed as follows:
 %
 \begin{equation}
-\mathbf{C}_{\mathrm{stim}}(:,t) = \displaystyle \frac{\mathbf{E}_{\mathrm{stim}}(:,t) - \mathbf{E}_{\mathrm{bkgnd}}(:)}{\mathbf{E}_{\mathrm{bkgnd}}(:)}
+\mathbf{C}_{\mathrm{stim}}(:,t) = \displaystyle \frac{\mathbf{E}_{\mathrm{stim}}(:,t) - \mathbf{E}_{\mathrm{bkgnd}}(:)}{\mathrm{E}_{\mathbf{bkgnd}}(:)}
 \end{equation}
 %
 where $\mathbf{E}_{\mathrm{stim}}(:,t)$ is the cone mosaic excitation response to the examined stimulus at time $t$, and $\mathbf{E}_{\mathrm{bkgnd}}(:)$ is the cone mosaic excitation response to a uniform field, zero contrast stimulus, whose mean $(x,y)$ chromaticity and mean luminance match those of the examined stimulus.
@@ -563,7 +571,7 @@ Spatial characteristics of cells in an mRGC mosaic synthesized at 4.5$^o$ along 
 %\includegraphics[width=0.83\textwidth]{figure7.png}
 \includegraphics[width=0.95\textwidth]{figure7.pdf}
 \caption{
-\textbf{Spatial RF characteristics of synthetic mRGCs} \textbf{A:} Mosaic of RF centers of an mRGC mosaic synthesized at 4.5$^\circ$ along the temporal horizontal meridian. \textbf{B1--B3:} Cone pooling maps for 3 exemplar cells whose positions within the mRGC mosaic are labeled in A. Pink and cyan disks depict L-- and M--cones, respectively, whose RF center pooling weights are $\ge 0.1$, or whose RF surround weights are $\ge 0.005$. Gray disks represent either S-cones, which are not pooled in our model, or L--/M--cones with pooling weights lower than the labeling thresholds. The solid and dashed black lines depict the extents of the RF center and surround pooling regions. \textbf{C1--C3:} Y-axis integrated cone pooling weight profiles within the RF center (maroon) and surround (slate). The dashed lines depict the visual space--referred line weighting functions as derived by fitting Difference of Gaussians (DoG) models to each cell's vSTF. \textbf{D1--D3:} The vSTFs of the exemplar mRGCs, computed under physiological optics, are depicted by the gray disks. The gray, maroon, and slate lines depict the DoG model fits to these vSTFs, and the models' component center and surround vSTFs, respectively.
+\textbf{Spatial RF characteristics of synthetic mRGCs} \textbf{A:} Mosaic of RF centers of an mRGC mosaic synthesized at 4.5$^\circ$ along the temporal horizontal meridian. \textbf{B1--B3:} Cone pooling maps for 3 exemplar cells whose positions within the mRGC mosaic are labeled in A. Pink and cyan disks depict L-- and M--cones, respectively, whose RF center pooling weights are $\ge 0.1$, or whose RF surround weights are $\ge 0.005$. Gray disks represent either S-cones, which are not pooled in our model, or L--/M--cones with pooling weights lower than the labeling thresholds. The solid and dashed black lines depict the extents of the RF center and surround pooling regions. \textbf{C1--C3:} Y-axis integrated cone pooling weight profiles within the RF center (maroon) and surround (slate). The dashed lines depict the visual space--referred line weighting functions as derived by fitting Difference of Gaussians (DoG) models to each cell's $\mathbf{vSTF}$. \textbf{D1--D3:} The $\mathbf{vSTF}$s of the exemplar mRGCs, computed under physiological optics, are depicted by the gray disks. The gray, maroon, and slate lines depict the DoG model fits to these $\mathbf{vSTF}$s, and the models' component center and surround $\mathbf{vSTF}$s, respectively.
 }
 \label{Fig:Results_SynthesizingMRGCMosaics}
 \end{figure}
@@ -577,9 +585,9 @@ The cone pooling maps depicted in Figs~\ref{Fig:Results_SynthesizingMRGCMosaics}
 
 Figs~\ref{Fig:Results_SynthesizingMRGCMosaics}C1--C3 add to this view by providing information about the strength of the cone inputs for the three exemplar cells. Here, the maroon and slate histograms depict the cells' spatially integrated (along the y-axis) cone pooling weights for the RF center and the surround mechanisms, respectively. Note that in the cell depicted in Fig.~\ref{Fig:Results_SynthesizingMRGCMosaics}C1, the double exponential spatial profile of the surround cone pooling mechanism, with a sharp peak around the RF center and more shallow weights in peripheral regions, is prominent. In the two other cells shown, this feature is less prominent. 
 
-This observation, where cells with larger RF centers have less peaked surround weights than cells with smaller RF centers is seen commonly in our synthetic mRGCs. The change in surround pooling characteristics results from constraints in the model, which maintain vSTF shape parameters that are consistent \emph{in vivo} measurements \cite{CronerKaplan1995_MandPcells} while at the same time remaining consistent with the surround parametric form indicated by measurements of H1 receptive fields \cite{PackerDacey2002_H1cellSpatialRFs}.
+This observation, where cells with larger RF centers have less peaked surround weights than cells with smaller RF centers is seen commonly in our synthetic mRGCs. The change in surround pooling characteristics results from constraints in the model, which maintain $\mathbf{vSTF}$ shape parameters that are consistent \emph{in vivo} measurements \cite{CronerKaplan1995_MandPcells} while at the same time remaining consistent with the surround parametric form indicated by measurements of H1 receptive fields \cite{PackerDacey2002_H1cellSpatialRFs}.
 
-Visual space--referred spatial transfer functions (vSTFs) are commonly measured in  \emph{in vivo} physiological assessments to estimate spatial RF properties of mRGCs \cite{CronerKaplan1995_MandPcells, Lee2012_mRGCsurroundConeSpecificity}. The vSTFs computed for the three examined synthetic mRGCs are depicted by the gray disks in Figs~\ref{Fig:Results_SynthesizingMRGCMosaics}D1--\ref{Fig:Results_SynthesizingMRGCMosaics}D3. The corresponding DoG model fits are depicted by the solid gray lines, and the spatial RF profiles corresponding to these DoG model fits are depicted by the dashed lines in Figs~\ref{Fig:Results_SynthesizingMRGCMosaics}C1--C3. Contrasting these inferred spatial RF profiles with the actual cone pooling profiles, it becomes evident that one cannot use characterizations obtained under physiological optics viewing to directly infer the characteristics of spatial pooling of cone signals in the retina. We discuss this issue further in later sections.
+Visual space--referred spatial transfer functions are commonly measured in  \emph{in vivo} physiological assessments to estimate spatial RF properties of mRGCs \cite{CronerKaplan1995_MandPcells, Lee2012_mRGCsurroundConeSpecificity}. The $\mathbf{vSTF}$s computed for the three examined synthetic mRGCs are depicted by the gray disks in Figs~\ref{Fig:Results_SynthesizingMRGCMosaics}D1--\ref{Fig:Results_SynthesizingMRGCMosaics}D3. The corresponding DoG model fits are depicted by the solid gray lines, and the spatial RF profiles corresponding to these DoG model fits are depicted by the dashed lines in Figs~\ref{Fig:Results_SynthesizingMRGCMosaics}C1--C3. Contrasting these inferred spatial RF profiles with the actual cone pooling profiles, it becomes evident that one cannot use characterizations obtained under physiological optics viewing to directly infer the characteristics of spatial pooling of cone signals in the retina. We discuss this issue further in later sections.
 %
 %
 %
@@ -591,9 +599,9 @@ Visual space--referred spatial transfer functions (vSTFs) are commonly measured 
 \label{Section:Results_SynthesizedMRGCsConsistentWithInVivoPhysiology}
 %
 %
-To validate our model, we synthesized mRGC mosaics across a wide region of the retina, and computed vSTFs of individual mRGCs by probing them with drifting achromatic gratings of different spatial frequencies delivered to the retina under human physiological optics appropriate for the eccentricity of the examined cells, simulating the experimental paradigm of Croner \& Kaplan \cite{CronerKaplan1995_MandPcells}.
+To validate our model, we synthesized mRGC mosaics across a wide region of the retina, and computed $\mathbf{vSTF}$s of individual mRGCs by probing them with drifting achromatic gratings of different spatial frequencies delivered to the retina under human physiological optics appropriate for the eccentricity of the examined cells, simulating the experimental paradigm of Croner \& Kaplan \cite{CronerKaplan1995_MandPcells}.
 
-To compare synthetic and macaque mRGCs we fitted the synthetic cell vSTFs with the DoG model employed by Croner \& Kaplan and compared the ratios of surround to center characteristic radii, $R_s/R_c$, and ratios of surround to center integrated sensitivities, $(K_s/K_c \times R_s^2/R_c^2)$, to those reported by Croner \& Kaplan \cite{CronerKaplan1995_MandPcells}. The results of this analysis are depicted in the left and right panels of Fig.~\ref{Fig:Results_ValidationAgainstCronerAndKaplan} for mRGC mosaics synthesized under the physiological optics of two different human observers. 
+To compare synthetic and macaque mRGCs we fitted the synthetic cell $\mathbf{vSTF}$s with the DoG model employed by Croner \& Kaplan and compared the ratios of surround to center characteristic radii, $R_s/R_c$, and ratios of surround to center integrated sensitivities, $(K_s/K_c \times R_s^2/R_c^2)$, to those reported by Croner \& Kaplan \cite{CronerKaplan1995_MandPcells}. The results of this analysis are depicted in the left and right panels of Fig.~\ref{Fig:Results_ValidationAgainstCronerAndKaplan} for mRGC mosaics synthesized under the physiological optics of two different human observers. 
 %
 %
 \begin{figure}[!ht]
@@ -625,16 +633,15 @@ On the other hand, the integrated sensitivity rations, $K_s/K_c \times R_s^2/R_c
 
 Note that, although we did use the mean variation with eccentricity of macaque $R_s/R_c$ and $(K_s/K_c \times R_s^2/R_c^2)$ ratios during construction of the model, the model was derived using additional constraints: those imposed by the densities of cones and mRGC RFs, by the spatial characteristics of H1 horizontal cells, and by measurements of human optics. These validations, therefore, check both that we have not over constrained our model in a manner that makes it inconsistent with the macaque data, and that our method of interpolating surround pooling weights from models derived at a set of discrete retinal locations works well.
 
-We next examined the correspondence between synthetic and macaque mRGCs in their visual space--referred RF center sizes, $R_c$. Recall that in synthesizing mRGC mosaics, the RF centers are constructed independently of the Croner \& Kaplan physiological data, using only anatomical data and estimates of RF center overlap obtained from \emph{in vitro} physiology in the periphery \cite{Gauthier2009_ON_OFF_Overlap}. The comparison between synthetic and macaque $R_c$ values is depicted in Figs.~\ref{Fig:Results_ValidationAgainstCronerAndKaplan}C1--C2. Note that the distribution of $R_c$ in the synthetic mRGCs follows the trend seen in macaque mRGCs with eccentricity, with good agreement at eccentricities above 10$^o$ for both subjects. In more central locations, however, the synthetic mRGC RF center sizes are 2--3 times smaller than those in the macaque.
+We next examined the correspondence between synthetic and macaque mRGCs in their visual space--referred RF center sizes, $R_c$. Recall that in synthesizing mRGC mosaics, the RF centers are constructed independently of the Croner \& Kaplan physiological data, using only anatomical data and estimates of RF center overlap obtained from \emph{in vitro} physiology in the periphery \cite{Gauthier2009_ON_OFF_Overlap}. The comparison between synthetic and macaque $R_c$ values is depicted in Figs.~\ref{Fig:Results_ValidationAgainstCronerAndKaplan}C1--C2. Note that the distribution of $R_c$ in the synthetic mRGCs follows the trend seen in macaque mRGCs with eccentricity, with good agreement at eccentricities above 10$^o$ for both subjects. In more central locations, however, the synthetic mRGC RF center sizes are 2--3 times smaller than those in the macaque. We believe that the discrepancy at central locations is not a deficiency of our model, but rather results from several factors.
 
-We believe that the discrepancy at central locations is not a deficiency of our model, but rather results from several factors.
 First, the cone mosaic in our model has a peak density of 288,000 cones/mm$^2$ which is near the high end of densities reported in humans \cite{Curcio1990_HumanConeMosaic}, whereas the average macaque peak cone density is around 200,000 cones/mm$^2$ \cite{Schein1988_MacaqueSpatialDensitites, Packer1989_MacaqueRetinaPhotoreceptorTopography}. The higher cone mosaic density in humans implies smaller cone apertures, which in turn would bias our synthetic mRGCs towards somewhat smaller RF centers.
 
 Second, in acute macaque experiments, optical refraction is not necessarily perfect, so there could be residual blur due to errors in refraction, as well as due to corneal edema from the contract lens used in typical multi-day acute experiments. This would increase the size of the RF centers in the physiological data relative to those in our model in central retina.  Moreover, residual eye movements can occur in acute experiments, despite the ocular muscle paralysis (personal observations by N.P. Cottaris). Such residual movements would artificially enlarge estimates of RF center size for central retina mRGCs.
 
-Finally, in the macaque experiments of Croner \& Kaplan, stimulus orientation was not optimized to match any orientation bias in the RF of macaque mRGCs (Lisa Croner, personal communication), whereas in the simulated experiments, stimulus orientation was matched to the cell’s visual-space referred orientation bias, which results in the smallest possible estimate of RF center size. 
+Finally, in the macaque mRGC $\mathbf{vSTF}$ characterizations of Croner \& Kaplan, stimulus orientation was not optimized to match any orientation bias in the RF of macaque mRGCs (Lisa Croner, personal communication), whereas in the simulated experiments, stimulus orientation was matched to the cell’s visual-space referred orientation bias, which results in the smallest possible estimate of RF center size. Indeed we conducted additional analyses in which we computed $\mathbf{vSTF}$s under random grating orientations, as well as a fixed orientation (as was done in the Croner \& Kaplan characterizations). These analyses revealed that such mismatches in stimulus orientation from the cell's  optimal visual-space referred orientation leads to enlarged estimates of $R_c$. However, these enlarged estimates still fall short of those reported by Croner \& Kaplan, so the first two factors that we mentioned above must also be at play.
 
-Support for our assertion is provided by \emph{in vivo} data from foveal macaque mRGC STFs obtained under adaptive optics viewing conditions \cite{Godat2022_FovealMidgetRGCs}. The center sizes of these cells, blurred by the optics measured for the monkey subjects studied, are depicted by the purple disks in Figs.~\ref{Fig:Results_ValidationAgainstCronerAndKaplan}C1 \&  Figs.~\ref{Fig:Results_ValidationAgainstCronerAndKaplan}C2. Note that these align well with the $R_c$ values of our synthetic mRGCs.
+Support for our assertion is provided by \emph{in vivo} data from foveal macaque mRGC $\mathbf{vSTF}$s obtained under adaptive optics viewing conditions \cite{Godat2022_FovealMidgetRGCs}. The center sizes of these cells, blurred by the optics measured for the monkey subjects studied, are depicted by the purple disks in Figs.~\ref{Fig:Results_ValidationAgainstCronerAndKaplan}C1 \&  Figs.~\ref{Fig:Results_ValidationAgainstCronerAndKaplan}C2. Note that these align well with the $R_c$ values of our synthetic mRGCs.
 %
 %
 %
@@ -689,6 +696,7 @@ The second \emph{in vitro} study we validated our synthetic mRGCs against, is th
 \textbf{A: } Center and surround cone pooling weight maps for three synthetic mRGCs at an eccentricity of 6.75 mm along the temporal raphe. Solid and dashed contours include cones pooled by the RF center and RF surround, respectively, with pooling weights $>0.005 \times$ the peak center weight.
 %
 \textbf{B: } Center and surround cone pooling weights for three macaque mRGCs recorded in vitro at an eccentricity of 6.75 mm along the temporal raphe. White and black disks indicate cones pooled by the RF center and RF surround respectively, with same threshold pooling weights as in A. The macaque mRGCs are from the \emph{in vitro} recordings of Field \emph{et al.} \cite{Field2010_FunctionalConnectivitySingleCones}.
+\textbf{C1 \&C2: } Comparison of minor and major center and surround diameters of the 3 macaque mRGC cells (depicted by the square, circle and star symbols) against the corresponding distributions in populations of synthetic mRGCs at eccentricities of 6.75 mm (C1) and 6.0 mm (C2).
 }
 \label{Fig:Results_ValidationAgaistField}
 \end{figure}
@@ -698,7 +706,9 @@ Fig.~\ref{Fig:Results_ValidationAgaistField}A depicts the cone pooling maps of t
 
 Note the general agreement between synthetic and macaque mRGCs in the extent of both their RF centers and surrounds, although again, synthetic mRGCs appear to have slightly larger RFs that their macaque counterparts. Also notable is that the density of cones in the synthetic mRGC cone pooling maps is higher than that seen in the macaque mRGCs. This occurs because our model is based on human cone mosaics, and human cone density is higher than macaque cone density at temporal eccentricities above 5 mm \cite{Grunert2020_HumanVsPrimateRetina}, which is where these comparisons are made. 
 
-This observation highlights an inherent issue in building our mRGC model, namely that we had to employ a mixture of human and macaque data sources: human data regarding the density of cones and the density of mRGC RFs across visual space, human data regarding the characteristics of physiological optics across the retina, and macaque data regarding the spatial characteristics of mRGC RFs and of H1 horizontal cells, with our validations done against macaque data. This is not ideal, as there are some differences between human and macaque retinas \cite{Grunert2020_HumanVsPrimateRetina}. But, it is unavoidable given the lack of complete data in either species. The modeling framework that we devised however, which incorporates data from different sources, can be easily modified as new data become available.
+To further explore the relationship in center and surround cone pooling regions between synthetic and macaque mRGCs we contrasted the diameters of cone pooling regions of the three depicted macaque mRGCs against those of populations of synthetic mRGCs at two eccentricities: 6.75 mm, and 6.0 mm. Results of this analysis are depicted in Fig.~\ref{Fig:Results_ValidationAgaistField}C1 and Fig.~\ref{Fig:Results_ValidationAgaistField}C2. Here, the minor and major center and surround diameters of the 3 macaque mRGC cells are depicted by the yellow square, pink circle and magenta star symbols. The  corresponding distributions of minor and major center and surround cone pooling diameters in populations of synthetic mRGCs are depicted by the yellow, pink and magenta histograms, respectively. Note that at 6.75 mm (Fig.~\ref{Fig:Results_ValidationAgaistField}C1), the cone pooling regions of the synthetic mRGCs are consistently larger than those of the three macaque mRGCs. However, at the slightly less peripheral eccentricity of 6.0 mm (Fig.~\ref{Fig:Results_ValidationAgaistField}C2) a better agreement exists between model and macaque mRGCs.
+
+These observations highlight an inherent issue in building our mRGC model, namely that we had to employ a mixture of human and macaque data sources: human data regarding the density of cones and the density of mRGC RFs across visual space, human data regarding the characteristics of physiological optics across the retina, and macaque data regarding the spatial characteristics of mRGC RFs and of H1 horizontal cells, with our validations done against macaque data. This is not ideal, as there are some differences between human and macaque retinas \cite{Grunert2020_HumanVsPrimateRetina}. But, it is unavoidable given the lack of complete data in either species. The modeling framework that we devised however, which incorporates data from different sources, can be easily modified as new data become available.
 %
 %
 %
@@ -744,7 +754,7 @@ Overall, this analysis demonstrates that there can be substantial differences be
 \subsection{Validity of the Difference of Gaussians model applied to \emph{in vitro} responses of mRGCs in retrieving their spatial pooling characteristics}
 \label{Section:Results_DoGmodelFailure}
 
-In our synthetic mRGCs, the spatial characteristics of cone pooling within the RF center and the RF surround \emph{component} mechanisms are known by design. This allows us to test how well one can predict these characteristics from Difference of Gaussian model fits to \emph{in vitro} measurements of mRGC STFs, where the RF center and surround mechanisms are driven simultaneously in the absence of optics \cite{Wool2018_NonSelectingWiringMidgetRGC}. Results of this analysis are illustrated in Fig.~\ref{Fig:Results_FailureOfDoGModel}.
+In our synthetic mRGCs, the spatial characteristics of cone pooling within the RF center and the RF surround \emph{component} mechanisms are known by design. This allows us to test how well one can predict these characteristics from Difference of Gaussian model fits to \emph{in vitro} measurements of mRGC $\mathbf{vSTF}$s, where the RF center and surround mechanisms are driven simultaneously in the absence of optics \cite{Wool2018_NonSelectingWiringMidgetRGC}. Results of this analysis are illustrated in Fig.~\ref{Fig:Results_FailureOfDoGModel}.
 %
 %
 \begin{figure}[!ht]
@@ -752,7 +762,7 @@ In our synthetic mRGCs, the spatial characteristics of cone pooling within the R
 %\includegraphics[width=0.77\textwidth]{figure12.png}
 \includegraphics[width=0.90\textwidth]{figure12.pdf}
 \caption{
-\textbf{Spatial characteristics of mRGC surround cone pooling inferred from DoG model fits to retinal space--referred STFs are not accurate.} The correspondence between actual and inferred surround cone pooling is examined for exemplar synthetic mRGCs at four eccentricities.
+\textbf{Spatial characteristics of mRGC surround cone pooling inferred from DoG model fits to retinal space--referred $\mathbf{vSTF}$s are not accurate.} The correspondence between actual and inferred surround cone pooling is examined for exemplar synthetic mRGCs at four eccentricities.
 %
 \textbf{Left panels: } Cone input maps of exemplar synthetic mRGCs. 
 %
@@ -806,15 +816,14 @@ At present, our mRGC model does not include spike generation or response noise. 
 Given the choice of Gaussian noise, we used a template matching computational observer decision rule, with templates provided by the noise-free responses to the stimuli being discriminated.
 For comparing computational observer performance at the mRGCs with that at the cones, we also adopted the Gaussian noise approximation for the cone excitations, and used the template matching decision rule.
 
-To estimate contrast sensitivity, we varied, for each tested spatial frequency, $\omega$, the contrast of the test stimulus and identified threshold contrast, $C_{\mathrm{threshold}}(\omega)$, as that for which the probability of correctly identifying the test versus a zero contrast stimulus was 80.6\%. Contrast sensitivity was defined as $CSF(\omega) = 1/C_{\mathrm{threshold}}(\omega)$. Estimates of so computed contrast sensitivities at three eccentricities are depicted in Fig.~\ref{Fig:Results_SpatioChromaticContrastSensitivity}.
+To estimate contrast sensitivity, we varied, for each tested spatial frequency, $\omega$, the contrast of the test stimulus and identified threshold contrast, $\mathbf C_{\mathrm{threshold}}(\omega)$, as that for which the probability of correctly identifying the test versus a zero contrast stimulus was 80.6\%. Contrast sensitivity was defined as $\mathbf{CSF}(\omega) = 1/\mathbf{C}_{\mathrm{threshold}}(\omega)$. Estimates of so computed contrast sensitivities at three eccentricities are depicted in Fig.~\ref{Fig:Results_SpatioChromaticContrastSensitivity}.
 %
 %
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=0.75\textwidth]{figure13.pdf}
 \caption{
-\textbf{Computational observer spatial CSFs}\\
-Left column depicts CSFs computed with stimuli that are delivered to the retina through typical human optics. Right column depict CSFs computed with stimuli that are delivered to the retina under diffraction limited optics. 
+\textbf{Computational observer spatial CSFs}. Left column depicts CSFs computed with stimuli that are delivered to the retina through typical human optics. Right column depict CSFs computed with stimuli that are delivered to the retina under diffraction limited optics. 
 \textbf{A1:} CSFs for a $0.6^{\circ} \times 0.6^{\circ}$ foveal mRGC mosaic and of its input cone mosaic, depicted by disks and triangles, respectively. Gray: achromatic; pink: L-M. This mosaic contains 4628 mRGCs.
 \textbf{A2:} Diffraction-limited CSFs of the same foveal mRGC mosaic. 
 \textbf{B1 \& B2:} CSFs for a $2.1^{\circ} \times 2.1^{\circ}$ parafoveal mRGC mosaic synthesized at an eccentricity of 4$^\circ$ along the temporal meridian. This mosaic contains 4633 mRGCs. 
@@ -839,7 +848,8 @@ As we move to more peripheral locations, additional features of the CSF emerge. 
 
 Comparison of the cone--based CSFs in Fig.~\ref{Fig:Results_SpatioChromaticContrastSensitivity}A1 with those in Fig.~\ref{Fig:Results_SpatioChromaticContrastSensitivity}B1 and Fig.~\ref{Fig:Results_SpatioChromaticContrastSensitivity}C1 also reveals the effect of stronger optical blur with eccentricity, which increases the rolloff of the CSFs with spatial frequency. Similar comparison of the mRGC-based CSFs shows additional rolloff introduced by the increasing size of mRGC RF centers with eccentricity. 
 
-Additional observations are notable at 14$^{\circ}$ (Figs.~\ref{Fig:Results_SpatioChromaticContrastSensitivity}C1 and \ref{Fig:Results_SpatioChromaticContrastSensitivity}C2). First, a notch arises in the achromatic CSF at high spatial frequencies for the mRGC CSF that is not apparent in the cone CSF. This seems unlikely to be an optical effect, because it is more salient in Fig.~\ref{Fig:Results_SpatioChromaticContrastSensitivity}C2 where optical effects are not present. Additional computations (not shown), indicate this notch is orientation dependent and has to do with the precise alignment of individual cones with the receptive field of an mRGC. We do not explore it further here. We do note that our computational observer is with respect to a noise level that makes it more sensitive than the human observer, so that the notch shown in Fig.~\ref{Fig:Results_SpatioChromaticContrastSensitivity}C1 would be unlikely to be revealed with psychophysics conducted with natural optics. It is an interesting question as to whether it could be observed under adaptive optics conditions.
+Additional observations are notable at 14$^{\circ}$ (Figs.~\ref{Fig:Results_SpatioChromaticContrastSensitivity}C1 and \ref{Fig:Results_SpatioChromaticContrastSensitivity}C2). First, a notch arises in the achromatic CSF at high spatial frequencies for the mRGC CSF that is not apparent in the cone CSF. This seems unlikely to be an optical effect, because it is more salient in Fig.~\ref{Fig:Results_SpatioChromaticContrastSensitivity}C2 where optical effects are not present. Additional computations (not shown), indicate this notch is orientation dependent and has to do with the precise alignment of individual cones with the receptive field of an mRGC. We do not explore it further here.  We do note that our computational observer is with respect to a noise level that makes it more sensitive than the human observer, so that the notch shown in Fig.~\ref{Fig:Results_SpatioChromaticContrastSensitivity}C1 would be unlikely to be revealed with psychophysics conducted with natural optics. Indeed, repeating these simulations (data not shown) with twice the noise variance, we observe, in addition to an overall reduction in sensitivity, that the notch disappears under both physiological and adaptive optics conditions. It is an interesting question as to whether this notch could be observed experimentally under adaptive optics conditions. 
+
 
 Second, the $\mathrm{L-M}$ advantage over the achromatic CSF is reversed at 14$^{\circ}$ of eccentricity. This is because at such high eccentricities, the $\mathrm{L-M}$ signal is reduced by the increased mixing of L-- and M--cone signals within the larger mRGC RF centers and surrounds. Careful comparison of this effect with computational observer predictions for various choices of the model's spatial homogeneity/spectral purity tradeoff parameter, $\phi$, is an interesting future direction.
 %
@@ -921,13 +931,6 @@ Further, we showed that even under \emph{in-vitro} conditions, where the optics 
 %
 %
 %
-\subsection{Relation to previous modeling approaches}
-Linear models of midget RGCs have been developed by others. The recent paper by Somaratna and Freeman \cite{2025_RFconstructionOfMRGCsInPrimateRetina} employs a cascade of spatial and temporal filters to model the spatial filtering effect of optics, the temporal filtering by cones, and spatiotemporal filtering by horizontal, bipolar and ganglion cells. This model is defined analytically as a function of spatial and temporal frequency.
-
- , both function-inspired, modeling the retinal circuitry as a cascade of linear spatio-temporal filters \cite{}  with and biophysics-inspired models. 
-
-
-Function-inspired models attempt to model RGCs by employing the typical linear--non-linear--Poisson (LNP) standard model \cite{Carandini2005_DoWeKnowWhatTheEarlyVisualSystemDoes} using three components: spatial and temporal linear filtering by the RF center and surround mechanisms, followed by a gain control non-linearity that operates on the linear sum of responses of the center and surround mechanisms, and finally a stochastic spike generation mechanism. Biophysically-inspired models on the other hand, attempt to model RGCs by modeling the complexity of synaptic and cellular properties of cells at different retinal layers (cones, horizontal, bipolar, amacrine, and ganglion cells) and the connectivity between these layers \cite{Hennig2002_InfluenceOfRetinalSubcircuitsOnRGCnonLinearity}. And th\cite{Ly2025_VirtualHumanRetina}.
 
 \subsection{Applications}
 
@@ -948,18 +951,18 @@ When available, we used human data to guide model development, in order to maxim
 
 At the same time, not all the required data are available for human: although measurements of cone and mRGC density and physiological optics across the retina are available, physiological characterizations come from the macaque.
 
-The need to mix data across the two closely related species produces tension in cases where the parameters for the two species differ.
-An example is the different cone densities in the far periphery \cite{Grunert2020_HumanVsPrimateRetina}, which intrudes on the interpretation of the comparison between our model and \emph{in-vitro} physiology in that retinal region. As more data become available in both species, and as species differences come more fully into focus \cite{Kim2023_FovealConnectomics}, our approach should allow more fully differentiated models to be developed targeted at each.
+The need to mix data across the two closely related species produces tension in cases where the parameters for the two species differ. An example is the different cone densities in the far periphery \cite{Grunert2020_HumanVsPrimateRetina}, which intrudes on the interpretation of the comparison between our model and \emph{in-vitro} physiology in that retinal region. As more data become available in both species, and as species differences come more fully into focus \cite{Kim2023_FovealConnectomics}, our approach should allow more fully differentiated models to be developed targeted at each.
 %
 %
 %
 \subsubsection{Noise, nonlinearities and temporal dynamics}
+\label{Section:Extensions}
 Although the current model captures fundamental aspects of the visual representation at the level of the mosaic of ON mRGCs, there are known characteristics of mRGCs that it does not account for. These include static and spatial nonlinearities, temporal filtering, spike generation, and physiologically constrained response noise. The modeling framework we developed is extensible however, so that these components may be included through future work.
 
 Response variability models are available for macaque mRGCs, as descriptions of spike generation mechanisms \cite{Croner93_RGCresponseVariability, Lee2004_RGCresponseVariability, Pillow2005_PredictionDecodingRGCresponsesProbabilisticSpikingModel}. In addition, we can incorporate 
 nonlinearities, such as (a) adaptation effects  introduced through the phototransduction cascade \cite{AngueyraRieke2013_Photocurrent}, (b) compressive and expansive static nonlinearities in the output of mRGCs \cite{Pillow2005_PredictionDecodingRGCresponsesProbabilisticSpikingModel, Raghavan2023_ContrastGainControlMacaqueLGN}, and (c) spatial nonlinearities introduced by rectifying sub-units within the RFs of mRGCs \cite{Freeman2015_NonLinearSpatialSummationMidgetOFF, Rieke2024_NonLinearSubunitsInRGCSurrounds}. Explicit inclusion of photocurrent-based responses in the input to the mRGCs introduces a temporal component to the response model \cite{AngueyraRieke2013_Photocurrent}. In addition, a second temporal filter may be added, such that when combined with the photocurrent filter will yield the bandpass filter characteristics observed in macaque mRGCs \cite{Benardete1997_PcellRF_LinearDynamics}.
 
-Our current model does not represent explicitly the properties of the retinal circuitry (horizontal, bipolar, and amacrine cells) that produces the mRGC response properties, as we have opted instead to work towards a functional model that describes those properties. A complementary mRGC modeling approach that does consider some of these cell types explicitly has recently been published  \cite{Freeman2025_RFconstructionOfMRGCsInPrimateRetina}. We note however, that some of the processing performed by these other retinal cell types is incorporated implicitly in the current cone-to-mRGC model, such as the parametric form of the surrounds inherited from H1 cells. The framework we developed is designed so that it would be possible to interpose explicit models of intermediate retinal cell types. Representing the action of different cell types explicitly may in the longer run be an effective way to account for response nonlinearities in the mRGCs, or in other classes of retinal ganglion cells. Moreover, using our framework to model other cell classes may be of interest to those seeking to interpret responses of those classes \textit{per se}, or in the retinal mechanisms that produce RGC response properties.
+Our current model does not represent explicitly the properties of the retinal circuitry (horizontal, bipolar, and amacrine cells) that produces the mRGC response properties, as we have opted instead to work towards a functional model that describes those properties. A complementary mRGC modeling approach that does consider some of these cell types explicitly has recently been published \cite{Freeman2025_RFconstructionOfMRGCsInPrimateRetina}, and there are other modeling efforts that have examined the influence of the various retinal interneurons on RGC response properties \cite{Hennig2002_InfluenceOfRetinalSubcircuitsOnRGCnonLinearity, Wohrer2009_VirtualRetina}. We note however, that some of the processing performed by these other retinal cell types is incorporated implicitly in the current cone-to-mRGC model, such as the parametric form of the surrounds inherited from H1 cells. The framework we developed is designed so that it would be possible to interpose explicit models of intermediate retinal cell types. Representing the action of different cell types explicitly may in the longer run be an effective way to account for response nonlinearities in the mRGCs, or in other classes of retinal ganglion cells. Moreover, using our framework to model other cell classes may be of interest to those seeking to interpret responses of those classes \textit{per se}, or in the retinal mechanisms that produce RGC response properties.
 %
 %
 %
@@ -1119,64 +1122,64 @@ In the first step, we allow cone reassignments to a target mRGC from neighboring
 
 The heuristics followed in the first step are as follows. We begin by targeting mRGCs with a single input cone and continue to target mRGCs with progressively higher input cone numerosity. Within each set of targeted input cone numerosity, mRGCs are sorted based on ascending retinal eccentricity. For each targeted mRGC we determine up to 6 neighboring mRGCs which have input numerosity that exceeds that of the target mRGC by at least 2 cones. 
 
-Cone reassignments from the candidate donor mRGCs to the target mRGC are executed in multiple passes. Starting with the neighboring mRGC of the highest input numerosity, we determine the best transfer of a single cone. If there are no eligible donor nearby mRGCs, we move to the next targeted mRGC. If there is a single candidate, we accept it and execute the cone transfer. If there are more than one candidates, for each candidate donor mRGC (up to 6) we compute a cost function, $\mathbf{C}$, for reassigning each of its cones to the target mRGC, and pick the transfer that minimizes $\mathbf{C}$ across all cones and all candidate donor mRGCs. The cost function is described in more detail below. 
+Cone reassignments from the candidate donor mRGCs to the target mRGC are executed in multiple passes. Starting with the neighboring mRGC of the highest input numerosity, we determine the best transfer of a single cone. If there are no eligible donor nearby mRGCs, we move to the next targeted mRGC. If there is a single candidate, we accept it and execute the cone transfer. If there are more than one candidates, for each candidate donor mRGC (up to 6) we compute a cost function, $\mathrm{C}$, for reassigning each of its cones to the target mRGC, and pick the transfer that minimizes $\mathrm{C}$ across all cones and all candidate donor mRGCs. The cost function is described in more detail below. 
 
 Once the optimal cone transfers for each mRGC of the targeted input cone numerosity are executed, we move to the next pass, examining possible transfers from neighboring mRGCs of one lower input cone numerosity than before, but still higher than the input cone numerosity of the targeted mRGCs. Once all passes are executed, this process is repeated, now targeting mRGCs with increasing input cone numerosity, until all input cone numerosities have been targeted.
 
-In the second step, we only allow for cone swaps between an mRGC RF center and one of its neighbors. For each mRGC of the targeted input cone numerosity, we determine its 6 closest neighbors, but now without regard to their input cone numerosity. For each of these neighboring mRGCs, we evaluate the cost function, $\mathbf{C}$, for all possible combinations of cones from the target mRGC and cones from the neighboring mRGC and pick the combination that minimizes $\mathbf{C}$. The selected cone swap is executed only if the post-swap value of $\mathbf{C}$ is lower than its pre-swap value. Multiple passes through the entire mRGC mosaic, are executed, with each pass targeting mRGCs with progressively higher input cone numerosity.
+In the second step, we only allow for cone swaps between an mRGC RF center and one of its neighbors. For each mRGC of the targeted input cone numerosity, we determine its 6 closest neighbors, but now without regard to their input cone numerosity. For each of these neighboring mRGCs, we evaluate the cost function, $\mathrm{C}$, for all possible combinations of cones from the target mRGC and cones from the neighboring mRGC and pick the combination that minimizes $\mathrm{C}$. The selected cone swap is executed only if the post-swap value of $\mathrm{C}$ is lower than its pre-swap value. Multiple passes through the entire mRGC mosaic, are executed, with each pass targeting mRGCs with progressively higher input cone numerosity.
 
-The cost function, $\mathbf{C}$, employed to determine the optimal transfer/swap is based on the position and types of the cones pooled by the target mRGC, $t$, and the examined neighboring mRGC, $t_i$. For each examined pair of mRGCs, $(t,t_i)$, $\mathbf{C}^{(t,t_i)}$ is defined as:
+The cost function, $\mathrm{C}$, employed to determine the optimal transfer/swap is based on the position and types of the cones pooled by the target mRGC, $t$, and the examined neighboring mRGC, $t_i$. For each examined pair of mRGCs, $(t,t_i)$, $\mathrm{C}^{(t,t_i)}$ is defined as:
 %
 \begin{equation}
-\mathbf{C}^{(t,t_i)} = \displaystyle \phi \cdot \mathbf{C}^{(t,t_i)}_{\chi} + (1-\phi) \cdot \mathbf{C}^{t, t_i}_{\lambda}
+\mathrm{C}^{(t,t_i)} = \displaystyle \phi \cdot \mathrm{C}^{(t,t_i)}_{\chi} + (1-\phi) \cdot \mathrm{C}^{t, t_i}_{\lambda}
 \label{eq:tradeoffCostFunction}
 \end{equation}
 %
 \noindent
-where $\mathbf{C}^{(t,t_i)}_{\chi}$ is a spatial compactness cost component, $\mathbf{C}^{(t,t_i)}_{\lambda}$
+where $\mathrm{C}^{(t,t_i)}_{\chi}$ is a spatial compactness cost component, $\mathrm{C}^{(t,t_i)}_{\lambda}$
 is a spectral purity cost component, and $\phi$ is a free parameter that controls the desired trade-off between spatial compactness and spectral purity of the RF centers.
 
-The spatial compactness cost component, $\mathbf{C}^{(t,t_i)}_{\chi}$, is defined as: 
+The spatial compactness cost component, $\mathrm{C}^{(t,t_i)}_{\chi}$, is defined as: 
 \begin{equation}
-\mathbf{C}^{(t,t_i)}_{\chi} = \mathbf{C}^{(t, t_i)}_{\chi_{N}} + \mathbf{C}^{(t, t_i)}_{\chi_{o}}
+\mathrm{C}^{(t,t_i)}_{\chi} = \mathrm{C}^{(t, t_i)}_{\chi_{N}} + \mathrm{C}^{(t, t_i)}_{\chi_{o}}
 \label{eq:spatialCompactnessCostComponent}
 \end{equation}
 \noindent 
 
-In Eq.~\ref{eq:spatialCompactnessCostComponent}, $\mathbf{C}^{(t, t_i)}_{\chi_{N}}$ quantifies the differential input cone numerosity between the examined pair of mRGCs, and is defined as:
+In Eq.~\ref{eq:spatialCompactnessCostComponent}, $\mathrm{C}^{(t, t_i)}_{\chi_{N}}$ quantifies the differential input cone numerosity between the examined pair of mRGCs, and is defined as:
 %
 \begin{equation}
-\mathbf{C}^{(t, t_i)}_{\chi_{N}} = \displaystyle \left | \left( N^t_L + N^t_M \right) - \left (N^{t_i}_L + N^{t_i}_M \right)  \right |
+\mathrm{C}^{(t, t_i)}_{\chi_{N}} = \displaystyle \left | \left( N^t_L + N^t_M \right) - \left (N^{t_i}_L + N^{t_i}_M \right)  \right |
 \label{eq:spatialCompactnessDifferentialNumerosityCostTerm}
 \end{equation}
 with $N^t_L$ and $N^t_M$ are the numbers of L-- and M--cones pooled by the RF center of mRGC $t$, respectively.
 
-The $\mathbf{C}^{(t, t_i)}_{\chi_{o}}$ component of Eq.~\ref{eq:spatialCompactnessCostComponent} is a spatial overlap cost component, defined as the inverse of the distance between the centroids, $(P^t, P^{t_i})$, of the cones pooled by the two mRGCs, normalized by the sum of their spatial standard deviations, $(\sigma^t, \sigma^{t_i})$:
+The $\mathrm{C}^{(t, t_i)}_{\chi_{o}}$ component of Eq.~\ref{eq:spatialCompactnessCostComponent} is a spatial overlap cost component, defined as the inverse of the distance between the centroids, $(P^t, P^{t_i})$, of the cones pooled by the two mRGCs, normalized by the sum of their spatial standard deviations, $(\sigma^t, \sigma^{t_i})$:
 %
 \begin{equation}
-\mathbf{C}^{(t, t_i)}_{\chi_{o} } = \displaystyle 1 / \left( \frac{||P^t-P^{t_i}||}{\sigma^t+\sigma^{t_i}} \right)
+\mathrm{C}^{(t, t_i)}_{\chi_{o} } = \displaystyle 1 / \left( \frac{||P^t-P^{t_i}||}{\sigma^t+\sigma^{t_i}} \right)
 \label{eq:spatialCompactnessOverlapCostTerm}
 \end{equation}
 %
-A low value of $\mathbf{C}^{(t, t_i)}_{\chi_{o}}$ indicates low overlap between the sets of cones pooled by the examined pair of mRGCs and conversely, a high value indicates a large overlap.
+A low value of $\mathrm{C}^{(t, t_i)}_{\chi_{o}}$ indicates low overlap between the sets of cones pooled by the examined pair of mRGCs and conversely, a high value indicates a large overlap.
 
-The $\mathbf{C}^{t,t_i}_{\lambda}$ term, in Eq.~\ref{eq:tradeoffCostFunction}, is a cost component quantifying the sum of spectral impurities of the pair of analyzed mRGCs:
+The $\mathrm{C}^{t,t_i}_{\lambda}$ term, in Eq.~\ref{eq:tradeoffCostFunction}, is a cost component quantifying the sum of spectral impurities of the pair of analyzed mRGCs:
 %
 \begin{equation}
-\mathbf{C}^{t,t_i}_{\lambda} = \displaystyle \mathbf{C}^t_{\lambda} + \mathbf{C}^{t_i}_{\lambda}
+\mathrm{C}^{t,t_i}_{\lambda} = \displaystyle \mathrm{C}^t_{\lambda} + \mathrm{C}^{t_i}_{\lambda}
 \label{eq:spectralPurityCostFunction}
 \end{equation}
 %
 \noindent
-The spectral impurity, $\mathbf{C}^t_{\lambda}$, quantifies the degree of non-specificity, with regard to the type of cone, in the pooling withing the RF center of an mRGC, and is defined as:
+The spectral impurity, $\mathrm{C}^t_{\lambda}$, quantifies the degree of non-specificity, with regard to the type of cone, in the pooling withing the RF center of an mRGC, and is defined as:
 %
 \begin{equation}
-\mathbf{C}^t_{\lambda} = \displaystyle \frac{\min \left( \left [N^t_L, N^t_M \right ] \right) }{N^t_L + N^t_M}
+\mathrm{C}^t_{\lambda} = \displaystyle \frac{\min \left( \left [N^t_L, N^t_M \right ] \right) }{N^t_L + N^t_M}
 \label{eq:spectralImpurityScore}
 \end{equation}
 %
 \noindent 
-Values of $\mathbf{C}^t_{\lambda}$ near zero indicate a low amount of mixture of L-- and M--cones, and therefore a RF with a high degree of spectral purity, and conversely, values of $\mathbf{C}^t_{\lambda}$, near 0.5, indicate an equal mixture of L-- and M--cones, and therefore a RF center with a low degree of spectral purity.  
+Values of $\mathrm{C}^t_{\lambda}$ near zero indicate a low amount of mixture of L-- and M--cones, and therefore a RF with a high degree of spectral purity, and conversely, values of $\mathrm{C}^t_{\lambda}$, near 0.5, indicate an equal mixture of L-- and M--cones, and therefore a RF center with a low degree of spectral purity.  
 
 The tradeoff parameter $\phi$ factor in Eq.~\ref{eq:tradeoffCostFunction}, controls how the optimal cone transfer/swap is determined. When $\phi = 1$, cone reassignments/swaps are selected so as to minimize the spatial compactness cost, when $\phi = 0$, cone reassignments are chosen so as to minimize the spectral purity cost, and for intermediate values of $\phi$, cone reassignments are chosen so as to minimize a ratio of the two costs. 
 %
@@ -1242,18 +1245,18 @@ $R^{m}_c$ and $R^{m}_s$ are the mean values of center and surround radii across 
 The residual between the visual STF and the Difference of Gaussians model fit to it, drives the optimization of the surround pooling function. This function is a double exponent (following the H1 horizontal cell spatial RF in the macaque \cite{PackerDacey2002_H1cellSpatialRFs}):
 %
 \begin{equation}
-W_s(r) = K_{\mathrm{wide}} \times \exp \left [ -r/R_{\mathrm{wide}} \right] + K_{\mathrm{narrow}} \times \exp \left [ -r/R_{\mathrm{narrow}} \right]
+\mathbf W_s(r) = K_{\mathrm{wide}} \times \exp \left [ -r/R_{\mathrm{wide}} \right] + K_{\mathrm{narrow}} \times \exp \left [ -r/R_{\mathrm{narrow}} \right]
 \end{equation}
 %
 %
 
-To ensure that the surround pooling function remains consistent with parameter values observed in macaque H1 cell \cite{PackerDacey2002_H1cellSpatialRFs}, the optimization of $W_s(r)$ is constrained so that ratio of radii, $R_{\mathrm{narrow}}/R_{\mathrm{wide}}$, and the ratio of volumes, $V_{\mathrm{narrow}}/V_{\mathrm{wide}} = K_{\mathrm{narrow}}/K_{\mathrm{wide}} \times (R_{\mathrm{narrow}}/R_{\mathrm{wide}})^2$, of the two exponentials both remain within a specified tolerance range of the macaque data. 
+To ensure that the surround pooling function remains consistent with parameter values observed in macaque H1 cell \cite{PackerDacey2002_H1cellSpatialRFs}, the optimization of $\mathbf W_s(r)$ is constrained so that ratio of radii, $R_{\mathrm{narrow}}/R_{\mathrm{wide}}$, and the ratio of volumes, $V_{\mathrm{narrow}}/V_{\mathrm{wide}} = K_{\mathrm{narrow}}/K_{\mathrm{wide}} \times (R_{\mathrm{narrow}}/R_{\mathrm{wide}})^2$, of the two exponentials both remain within a specified tolerance range of the macaque data. 
 
 In the present work, the tolerance range for $R_{\mathrm{narrow}}/R_{\mathrm{wide}}$ was set to $\left [ 0.07, 0.35 \right ]$ for all mosaics, whereas the tolerance range for $V_{\mathrm{narrow}}/V_{\mathrm{wide}}$ was set to $\left [0.01, 0.6 \right ]$  for mosaics at eccentricities $\le 15^{\circ}$, to $\left [0.3, 0.9 \right ]$ for eccentricities in $15^{\circ} \dots 25^{\circ}$, and to $\left [0.6, 1.3 \right ]$, for eccentricities  $\ge 25^{\circ}$.
 
-The joint manipulation of the tolerance values applied to the parameters of the  $\mathrm{DOG}$ model fit to the vSTF, and to the parameters of the double exponential surround pooling model, $W_s(r)$,  allows for different options for deriving spatial pooling functions in synthetic mRGC surrounds. 
+The joint manipulation of the tolerance values applied to the parameters of the  $\mathrm{DOG}$ model fit to the $\mathbf{vSTF}$, and to the parameters of the double exponential surround pooling model, $\mathbf W_s(r)$,  allows for different options for deriving spatial pooling functions in synthetic mRGC surrounds. 
 
-One option is to set very strict tolerances on the parameters of DoG model fit to the achieved vSTF, while allowing for a large tolerance in the parameters of $W_s(r)$. Results of this choice are depicted in the left-most column of Figure~\ref{Fig:Supplemental_SurroundOptimizationStrategies}. A second option would be to allow medium tolerance levels in both the DoG model fit and the $W_s(r)$. Results of this choice are depicted in the middle column of Figure~\ref{Fig:Supplemental_SurroundOptimizationStrategies}. A third option would be to enforce strict tolerances in $W_s(r)$, for example matching parameters of individual H1 horizontal cells, while allowing for a loose tolerance in the DoG model fit. Results of this choice are depicted in the right column of Figure~\ref{Fig:Supplemental_SurroundOptimizationStrategies}. In the present work, we chose the second option.
+One option is to set very strict tolerances on the parameters of DoG model fit to the achieved $\mathbf{vSTF}$, while allowing for a large tolerance in the parameters of $\mathbf W_s(r)$. Results of this choice are depicted in the left-most column of Figure~\ref{Fig:Supplemental_SurroundOptimizationStrategies}. A second option would be to allow medium tolerance levels in both the DoG model fit and the $\mathbf{W}_s(r)$. Results of this choice are depicted in the middle column of Figure~\ref{Fig:Supplemental_SurroundOptimizationStrategies}. A third option would be to enforce strict tolerances in $\mathbf W_s(r)$, for example matching parameters of individual H1 horizontal cells, while allowing for a loose tolerance in the DoG model fit. Results of this choice are depicted in the right column of Figure~\ref{Fig:Supplemental_SurroundOptimizationStrategies}. In the present work, we chose the second option.
 %
 %
 % FIGURE 15
@@ -1264,15 +1267,15 @@ One option is to set very strict tolerances on the parameters of DoG model fit t
 \includegraphics[width=0.7\textwidth]{figure15.pdf}
 \caption{
 {\bf Effect of constraints on surround cone pooling.}\\
-Results from three options for the constraints are depicted. In the left column, we see results from a tight tolerance in the parameters of the DoG model fit to the vSTF and a loose tolerance in the parameters of the double exponential surround pooling model, $W_s(r)$. In the middle column, we see results from medium tolerance in both sets of parameters. In the right column, we see results from a loose tolerance in the DoG parameters and a tight tolerance in the $W_s(r)$ parameters. 
+Results from three options for the constraints are depicted. In the left column, we see results from a tight tolerance in the parameters of the $\mathbf{DoG}$ model fit to the $\mathbf{vSTF}$ and a loose tolerance in the parameters of the double exponential surround pooling model, $\mathbf W_s(r)$. In the middle column, we see results from medium tolerance in both sets of parameters. In the right column, we see results from a loose tolerance in the DoG parameters and a tight tolerance in the $\mathbf W_s(r)$ parameters. 
 %
 \textbf{A1-A3 :} The tolerance range enforced during model fitting in the joint space of the two surround cone pooling related parameters, $V_{\mathrm{narrow}}/V_{\mathrm{wide}}$ and $R_{\mathrm{narrow}}/R_{\mathrm{wide}}$ for the three examined strategies is depicted by the yellow rectangles. Stars depict the corresponding parameter values in four macaque H1 horizontal cells from the study of Packer \& Dacey. The red disk depicts the achieved parameter values under each strategy for an example foveal synthetic mRGC. 
 %
 \textbf{B1-B3 :} Line weighting functions of the retinal space referred center and surround cone pooling weights under the three examined strategies. 
 %
-\textbf{C1-C3 :} $\mathrm{vSTF}$ computed under the three strategies are depicted by the. disks, and the $\mathrm{DOG}$ model fit by the gray lines, with the red and blue lines depicting the center and surround components of the $\mathrm{DOG}$ model fit. 
+\textbf{C1-C3 :} $\mathbf{vSTF}$ computed under the three strategies are depicted by the gray disks, and the $\mathbf{DOG}$ model fit by the gray lines, with the red and blue lines depicting the center and surround components of the $\mathrm{DOG}$ model fit. 
 %
-\textbf{D1-D3 :} Blue and orange bars depict the residuals for the ratios of visual space - referred $R_s/Rc$ and  $K_s/K_c \times \left(R_s/R_c\right)^2$ ratios. Black circles connected by a black line depict the enforced tolerance range in these ratios. The enforced tolerance value in D3 was $\tau = 0.5$, and is not visualized. Yellow bars depict the $||\mathrm{vSTF}(\omega) - \mathrm{DOG}(\omega)||$ residual.
+\textbf{D1-D3 :} Blue and orange bars depict the residuals for the ratios of visual space - referred $R_s/Rc$ and  $K_s/K_c \times \left(R_s/R_c\right)^2$ ratios. Black circles connected by a black line depict the enforced tolerance range in these ratios. The enforced tolerance value in D3 was $\tau = 0.5$, and is not visualized. Yellow bars depict the $||\mathbf{vSTF}(\omega) - \mathbf{DOG}(\omega)||$ residual.
 }
 \label{Fig:Supplemental_SurroundOptimizationStrategies}
 \end{figure}
