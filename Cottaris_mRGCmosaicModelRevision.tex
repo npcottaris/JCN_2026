@@ -230,7 +230,6 @@ We begin by generating a lattice that represents the $(x,y)$ positions of mRGC R
 %
 \begin{figure}[!ht]
 \centering
-%\includegraphics[width=1.0\textwidth]{figure2.png}
 \includegraphics[width=1.0\textwidth]{figure2.pdf}
 \caption{
 {\bf{Eccentricity-varying mRGC RF position lattices.}} 
@@ -758,7 +757,7 @@ In our synthetic mRGCs, the spatial characteristics of cone pooling within the R
 %\includegraphics[width=0.77\textwidth]{figure12.png}
 \includegraphics[width=0.90\textwidth]{figure12.pdf}
 \caption{
-\textbf{Spatial characteristics of mRGC surround cone pooling inferred from DoG model fits to retinal space--referred $\mathbf{vSTF}$s are not accurate.} The correspondence between actual and inferred surround cone pooling is examined for exemplar synthetic mRGCs at four eccentricities.
+\textbf{Spatial characteristics of mRGC surround cone pooling inferred from DoG model fits to retinal space--referred $\mathrm{vSTF}$s are not accurate.} The correspondence between actual and inferred surround cone pooling is examined for exemplar synthetic mRGCs at four eccentricities.
 %
 \textbf{Left panels: } Cone input maps of exemplar synthetic mRGCs. 
 %
@@ -1238,18 +1237,18 @@ $R^{m}_c$ and $R^{m}_s$ are the mean values of center and surround radii across 
 The residual between the visual STF and the Difference of Gaussians model fit to it, drives the optimization of the surround pooling function. This function is a double exponent (following the H1 horizontal cell spatial RF in the macaque \cite{PackerDacey2002_H1cellSpatialRFs}):
 %
 \begin{equation}
-\mathbf W_s(r) = K_{\mathrm{wide}} \times \exp \left [ -r/R_{\mathrm{wide}} \right] + K_{\mathrm{narrow}} \times \exp \left [ -r/R_{\mathrm{narrow}} \right]
+\mathrm W_s(r) = K_{\mathrm{wide}} \times \exp \left [ -r/R_{\mathrm{wide}} \right] + K_{\mathrm{narrow}} \times \exp \left [ -r/R_{\mathrm{narrow}} \right]
 \end{equation}
 %
 %
 
-To ensure that the surround pooling function remains consistent with parameter values observed in macaque H1 cell \cite{PackerDacey2002_H1cellSpatialRFs}, the optimization of $\mathbf W_s(r)$ is constrained so that ratio of radii, $R_{\mathrm{narrow}}/R_{\mathrm{wide}}$, and the ratio of volumes, $V_{\mathrm{narrow}}/V_{\mathrm{wide}} = K_{\mathrm{narrow}}/K_{\mathrm{wide}} \times (R_{\mathrm{narrow}}/R_{\mathrm{wide}})^2$, of the two exponentials both remain within a specified tolerance range of the macaque data. 
+To ensure that the surround pooling function remains consistent with parameter values observed in macaque H1 cell \cite{PackerDacey2002_H1cellSpatialRFs}, the optimization of $\mathrm W_s(r)$ is constrained so that ratio of radii, $R_{\mathrm{narrow}}/R_{\mathrm{wide}}$, and the ratio of volumes, $V_{\mathrm{narrow}}/V_{\mathrm{wide}} = K_{\mathrm{narrow}}/K_{\mathrm{wide}} \times (R_{\mathrm{narrow}}/R_{\mathrm{wide}})^2$, of the two exponentials both remain within a specified tolerance range of the macaque data. 
 
 In the present work, the tolerance range for $R_{\mathrm{narrow}}/R_{\mathrm{wide}}$ was set to $\left [ 0.07, 0.35 \right ]$ for all mosaics, whereas the tolerance range for $V_{\mathrm{narrow}}/V_{\mathrm{wide}}$ was set to $\left [0.01, 0.6 \right ]$  for mosaics at eccentricities $\le 15^{\circ}$, to $\left [0.3, 0.9 \right ]$ for eccentricities in $15^{\circ} \dots 25^{\circ}$, and to $\left [0.6, 1.3 \right ]$, for eccentricities  $\ge 25^{\circ}$.
 
-The joint manipulation of the tolerance values applied to the parameters of the  $\mathrm{DOG}$ model fit to the $\mathbf{vSTF}$, and to the parameters of the double exponential surround pooling model, $\mathbf W_s(r)$,  allows for different options for deriving spatial pooling functions in synthetic mRGC surrounds. 
+The joint manipulation of the tolerance values applied to the parameters of the  $\mathrm{DOG}$ model fit to the $\mathrm{vSTF}$, and to the parameters of the double exponential surround pooling model, $\mathrm W_s(r)$,  allows for different options for deriving spatial pooling functions in synthetic mRGC surrounds. 
 
-One option is to set very strict tolerances on the parameters of DoG model fit to the achieved $\mathbf{vSTF}$, while allowing for a large tolerance in the parameters of $\mathbf W_s(r)$. Results of this choice are depicted in the left-most column of Figure~\ref{Fig:Supplemental_SurroundOptimizationStrategies}. A second option would be to allow medium tolerance levels in both the DoG model fit and the $\mathbf{W}_s(r)$. Results of this choice are depicted in the middle column of Figure~\ref{Fig:Supplemental_SurroundOptimizationStrategies}. A third option would be to enforce strict tolerances in $\mathbf W_s(r)$, for example matching parameters of individual H1 horizontal cells, while allowing for a loose tolerance in the DoG model fit. Results of this choice are depicted in the right column of Figure~\ref{Fig:Supplemental_SurroundOptimizationStrategies}. In the present work, we chose the second option.
+One option is to set very strict tolerances on the parameters of DoG model fit to the achieved $\mathrm{vSTF}$, while allowing for a large tolerance in the parameters of $\mathrm W_s(r)$. Results of this choice are depicted in the left-most column of Figure~\ref{Fig:Supplemental_SurroundOptimizationStrategies}. A second option would be to allow medium tolerance levels in both the DoG model fit and the $\mathrm{W}_s(r)$. Results of this choice are depicted in the middle column of Figure~\ref{Fig:Supplemental_SurroundOptimizationStrategies}. A third option would be to enforce strict tolerances in $\mathrm W_s(r)$, for example matching parameters of individual H1 horizontal cells, while allowing for a loose tolerance in the DoG model fit. Results of this choice are depicted in the right column of Figure~\ref{Fig:Supplemental_SurroundOptimizationStrategies}. In the present work, we chose the second option.
 %
 %
 % FIGURE 15
@@ -1260,15 +1259,15 @@ One option is to set very strict tolerances on the parameters of DoG model fit t
 \includegraphics[width=0.7\textwidth]{figure15.pdf}
 \caption{
 {\bf Effect of constraints on surround cone pooling.}\\
-Results from three options for the constraints are depicted. In the left column, we see results from a tight tolerance in the parameters of the $\mathbf{DoG}$ model fit to the $\mathbf{vSTF}$ and a loose tolerance in the parameters of the double exponential surround pooling model, $\mathbf W_s(r)$. In the middle column, we see results from medium tolerance in both sets of parameters. In the right column, we see results from a loose tolerance in the DoG parameters and a tight tolerance in the $\mathbf W_s(r)$ parameters. 
+Results from three options for the constraints are depicted. In the left column, we see results from a tight tolerance in the parameters of the $\mathrm{DoG}$ model fit to the $\mathrm{vSTF}$ and a loose tolerance in the parameters of the double exponential surround pooling model, $\mathrm W_s(r)$. In the middle column, we see results from medium tolerance in both sets of parameters. In the right column, we see results from a loose tolerance in the DoG parameters and a tight tolerance in the $\mathrm W_s(r)$ parameters. 
 %
-\textbf{A1-A3 :} The tolerance range enforced during model fitting in the joint space of the two surround cone pooling related parameters, $V_{\mathrm{narrow}}/V_{\mathrm{wide}}$ and $R_{\mathrm{narrow}}/R_{\mathrm{wide}}$ for the three examined strategies is depicted by the yellow rectangles. Stars depict the corresponding parameter values in four macaque H1 horizontal cells from the study of Packer \& Dacey. The red disk depicts the achieved parameter values under each strategy for an example foveal synthetic mRGC. 
+\textbf{A1-A3:} The tolerance range enforced during model fitting in the joint space of the two surround cone pooling related parameters, $V_{\mathrm{narrow}}/V_{\mathrm{wide}}$ and $R_{\mathrm{narrow}}/R_{\mathrm{wide}}$ for the three examined strategies is depicted by the yellow rectangles. Stars depict the corresponding parameter values in four macaque H1 horizontal cells from the study of Packer \& Dacey. The red disk depicts the achieved parameter values under each strategy for an example foveal synthetic mRGC. 
 %
-\textbf{B1-B3 :} Line weighting functions of the retinal space referred center and surround cone pooling weights under the three examined strategies. 
+\textbf{B1-B3:} Line weighting functions of the retinal space referred center and surround cone pooling weights under the three examined strategies. 
 %
-\textbf{C1-C3 :} $\mathbf{vSTF}$ computed under the three strategies are depicted by the gray disks, and the $\mathbf{DOG}$ model fit by the gray lines, with the red and blue lines depicting the center and surround components of the $\mathrm{DOG}$ model fit. 
+\textbf{C1-C3:} $\mathrm{vSTF}$ computed under the three strategies are depicted by the gray disks, and the $\mathrm{DOG}$ model fit by the gray lines, with the red and blue lines depicting the center and surround components of the $\mathrm{DOG}$ model fit. 
 %
-\textbf{D1-D3 :} Blue and orange bars depict the residuals for the ratios of visual space - referred $R_s/Rc$ and  $K_s/K_c \times \left(R_s/R_c\right)^2$ ratios. Black circles connected by a black line depict the enforced tolerance range in these ratios. The enforced tolerance value in D3 was $\tau = 0.5$, and is not visualized. Yellow bars depict the $||\mathbf{vSTF}(\omega) - \mathbf{DOG}(\omega)||$ residual.
+\textbf{D1-D3:} Blue and orange bars depict the residuals for the ratios of visual space - referred $R_s/Rc$ and  $K_s/K_c \times \left(R_s/R_c\right)^2$ ratios. Black circles connected by a black line depict the enforced tolerance range in these ratios. The enforced tolerance value in D3 was $\tau = 0.5$, and is not visualized. Yellow bars depict the $||\mathrm{vSTF}(\omega) - \mathrm{DOG}(\omega)||$ residual.
 }
 \label{Fig:Supplemental_SurroundOptimizationStrategies}
 \end{figure}
