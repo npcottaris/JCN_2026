@@ -924,7 +924,7 @@ Further, we showed that even under \emph{in-vitro} conditions, where the optics 
 
 \subsection{Applications}
 
-We employed an early version of the current model to interpret measurements of foveal macaque mRGCs measured \emph{in-vivo} using adaptive optics \cite{Godat2022_FovealMidgetRGCs}. Specifically, the model allowed us to relate the adaptive optics measurements to \emph{in-vivo} measurements conducted under physiological optics. For this purpose, the ability to move back and forth between retinal and visual space-referred representations was critical. 
+We employed an early version of the current model to interpret measurements of foveal macaque mRGCs measured \emph{in-vivo} using adaptive optics \cite{Godat2022_FovealMidgetRGCs}. Specifically, the model allowed us to relate the adaptive optics measurements to \emph{in-vivo} measurements conducted under physiological optics. For this purpose, the ability to move back and forth between retinal and visual space--referred representations was critical. 
 
 We are currently employing the model to assess inferences regarding the wiring of cone inputs to mRGC RF surrounds based on spatial RF measurements conducted \emph{in-vivo} \cite{Reid1992_ConeInputsToMRGCs}. Specifically, we are analyzing the substantial effect that chromatic aberration plays in shaping mRGC responses to cone isolating stimuli, and how these effects can help reconcile tension between results from \emph{in-vivo} physiology on the one hand and results from anatomy and \emph{in-vitro} physiology on the other \cite{Cottaris2024_mRGCs_ConeSelectiveOrNot}. 
 
@@ -1086,20 +1086,18 @@ BW: conceptualization, coding,  reviewing and editing of manuscript\\
 \subsection{Local topology--based convergent connections (stage 2A)}
 \label{Section:SupplementalMethods_Stage2A}
 
-During the first sub-stage of cone-mRGC RF center connectivity, cones are connected to single mRGC RF centers  based on the local topology of the 2 lattices. Starting with the cell whose RF center is at most central location of the mRGC lattice, we connect $n_{\mathrm pool}(\epsilon)$ number of L-- and M--cones to it,
+During the first sub-stage of cone to mRGC RF center connectivity, cones are connected to single mRGC RF centers  based on the local topology of their respective lattices. Starting with the cell whose RF center is at most central location of the mRGC lattice, we connect $n_{\mathrm pool}(\epsilon)$ number of L-- and M--cones to it, where:
 %
 \begin{equation}
 \label{eq:conesPerRFcenter}
-n_{\mathrm pool}(\epsilon) = \displaystyle \lfloor \frac{D_{\mathrm{cones}}(\epsilon)}{D_{\mathrm{mRGC RF}}(\epsilon)} \rfloor
+n_{\mathrm pool}(\epsilon) = \displaystyle \lfloor \frac{\mathrm{D}_{\mathrm{cones}}(\epsilon)}{\mathrm{D}_{\mathrm{mRGC RF}}(\epsilon)} \rfloor
 \end{equation}
 %
-where $D_{\mathrm{cones}}(\epsilon)$ and $D_{\mathrm{mRGC RF}}(\epsilon)$ are the local spatial densities of the cone mosaic and of the mRGC RF centers, respectively, at the eccentricity, $\epsilon$, of the target mRGC.
+with $\mathrm{D}_{\mathrm{cones}}(\epsilon)$ and $\mathrm{D}_{\mathrm{mRGC RF}}(\epsilon)$ being the local spatial densities of the cone mosaic and of the mRGC RF centers, respectively, at the eccentricity, $\epsilon$, of the target mRGC. We draw from the nearest cones that have not yet been connected and whose distance to the mRGC RF center does not exceed a fraction of the local mRGC RF center spacing. This fraction is a parameter of the model and for the work presented here was set to 0.6. 
 
-We draw from the nearest $n_{\mathrm pool}(\epsilon)$, typically 6, cones that have not yet been connected and whose distance to the mRGC RF center does not exceed a fraction of the local mRGC RF center spacing. This fraction is a parameter of the model and for the work presented here was set to 0.6. 
+Continuing with these assignments of cones to mRGC RF centers, we move outward to more peripheral locations in the mRGC mosaic, connecting cones to each mRGC RF center. Any L-- and M--cones that remain unconnected at the end of this sub-stage are then connected to their nearest mRGC RF center, so that all cones are connected to one mRGC RF center. 
 
-Continuing with these assignments of cones to mRGC RF centers, we move outward to more peripheral locations in the mRGC RF mosaic, connecting cones to each mRGC center. Any L-- and M--cones that remain unconnected at the end of this sub-stage are then connected to their nearest mRGC center, so that all cones are connected to one mRGC center. 
-
-This sub-stage can result in local inhomogeneities in both the number of cones and the type of cones pooled within neighboring RF centers. These inhomonegenities are smoothed out as part of the next sub-stage.
+This sub-stage can result in local inhomogeneities in both the number of cones and the type of cones pooled within neighboring mRGC RF centers. These inhomonegeities are smoothed out as part of the next sub-stage.
 %
 %
 % --- STAGE 2B ----
@@ -1108,15 +1106,15 @@ This sub-stage can result in local inhomogeneities in both the number of cones a
 \subsection{Optimizing cone connections to mRGC RF centers (stage 2B)}
 \label{Section:SupplementalMethods_Stage2B}
 
-In the second sub-stage of the RF center connectivity, convergent connections from multiple cones to single mRGC RF centers are optimized according to a desired balance between spatial and spectral inhomogeneities. This is achieved by reassigning cones between nearby mRGC RF centers, which itself occurs in two steps. 
+In the second sub-stage of the cone to mRGC RF center connectivity, convergent connections from multiple cones to single mRGC RF centers are optimized according to a desired balance between spatial homogeneity and spectral purity. This is achieved by reassigning cones between nearby mRGC RF centers, which itself occurs in two steps. 
 
 In the first step, we allow cone reassignments to a target mRGC from neighboring mRGCs that have a higher input cone numerosity in their RF centers. In the second step, we allow cone swaps between a target mRGC and its neighbors, independently of their input cone numerosities.
 
 The heuristics followed in the first step are as follows. We begin by targeting mRGCs with a single input cone and continue to target mRGCs with progressively higher input cone numerosity. Within each set of targeted input cone numerosity, mRGCs are sorted based on ascending retinal eccentricity. For each targeted mRGC we determine up to 6 neighboring mRGCs which have input numerosity that exceeds that of the target mRGC by at least 2 cones. 
 
-Cone reassignments from the candidate donor mRGCs to the target mRGC are executed in multiple passes. Starting with the neighboring mRGC of the highest input numerosity, we determine the best transfer of a single cone. If there are no eligible donor nearby mRGCs, we move to the next targeted mRGC. If there is a single candidate, we accept it and execute the cone transfer. If there are more than one candidates, for each candidate donor mRGC (up to 6) we compute a cost function, $\mathrm{C}$, for reassigning each of its cones to the target mRGC, and pick the transfer that minimizes $\mathrm{C}$ across all cones and all candidate donor mRGCs. The cost function is described in more detail below. 
+Cone reassignments from the candidate donor mRGCs to the target mRGC are executed in multiple passes. Starting with the neighboring mRGC of the highest input numerosity, we determine the best transfer of a single cone. If there are no eligible donor nearby mRGCs, we move to the next targeted mRGC. If there is a single candidate, we accept it and execute the cone transfer. If there are more than one candidates, for each candidate donor mRGC we compute a cost function, $\mathrm{C}$, for reassigning each of its cones to the target mRGC, and pick the transfer that minimizes $\mathrm{C}$ across all cones and all candidate donor mRGCs. The cost function is described in more detail below. 
 
-Once the optimal cone transfers for each mRGC of the targeted input cone numerosity are executed, we move to the next pass, examining possible transfers from neighboring mRGCs of one lower input cone numerosity than before, but still higher than the input cone numerosity of the targeted mRGCs. Once all passes are executed, this process is repeated, now targeting mRGCs with increasing input cone numerosity, until all input cone numerosities have been targeted.
+Once the optimal cone transfers for each mRGC of the targeted input cone numerosity are executed, we move to the next pass, examining possible transfers from neighboring mRGCs of lower input cone numerosity than before, but still higher than the input cone numerosity of the targeted mRGCs. Once all passes are executed, this process is repeated, now targeting mRGCs with increasing input cone numerosity, until all input cone numerosities have been targeted.
 
 In the second step, we only allow for cone swaps between an mRGC RF center and one of its neighbors. For each mRGC of the targeted input cone numerosity, we determine its 6 closest neighbors, but now without regard to their input cone numerosity. For each of these neighboring mRGCs, we evaluate the cost function, $\mathrm{C}$, for all possible combinations of cones from the target mRGC and cones from the neighboring mRGC and pick the combination that minimizes $\mathrm{C}$. The selected cone swap is executed only if the post-swap value of $\mathrm{C}$ is lower than its pre-swap value. Multiple passes through the entire mRGC mosaic, are executed, with each pass targeting mRGCs with progressively higher input cone numerosity.
 
@@ -1128,25 +1126,22 @@ The cost function, $\mathrm{C}$, employed to determine the optimal transfer/swap
 \end{equation}
 %
 \noindent
-where $\mathrm{C}^{(t,t_i)}_{\chi}$ is a spatial compactness cost component, $\mathrm{C}^{(t,t_i)}_{\lambda}$
-is a spectral purity cost component, and $\phi$ is a free parameter that controls the desired trade-off between spatial compactness and spectral purity of the RF centers.
+where $\mathrm{C}^{(t,t_i)}_{\chi}$ quantifies the degree of spatial incompactness, $\mathrm{C}^{(t,t_i)}_{\lambda}$ quantifies the degree of spectral impurity. The $\phi$ parameter controls the desired trade-off between spatial incompactness and spectral impurity of the RF centers. When $\phi = 1$, cone reassignments/swaps are selected so as to minimize the spatial incompactness score, when $\phi = 0$, cone reassignments are chosen so as to minimize the spectral impurity score, and for intermediate values of $\phi$, cone reassignments are chosen so as to minimize a ratio of the two scores.
 
-The spatial compactness cost component, $\mathrm{C}^{(t,t_i)}_{\chi}$, is defined as: 
+The spatial incompactness score, $\mathrm{C}^{(t,t_i)}_{\chi}$, in Eq.~\ref{eq:tradeoffCostFunction} is defined as: 
 \begin{equation}
 \mathrm{C}^{(t,t_i)}_{\chi} = \mathrm{C}^{(t, t_i)}_{\chi_{N}} + \mathrm{C}^{(t, t_i)}_{\chi_{o}}
 \label{eq:spatialCompactnessCostComponent}
 \end{equation}
 \noindent 
 
-In Eq.~\ref{eq:spatialCompactnessCostComponent}, $\mathrm{C}^{(t, t_i)}_{\chi_{N}}$ quantifies the differential input cone numerosity between the examined pair of mRGCs, and is defined as:
+The $\mathrm{C}^{(t, t_i)}_{\chi_{N}}$ term quantifies the differential input cone numerosity between the examined pair of mRGCs, and is defined as:
 %
 \begin{equation}
 \mathrm{C}^{(t, t_i)}_{\chi_{N}} = \displaystyle \left | \left( N^t_L + N^t_M \right) - \left (N^{t_i}_L + N^{t_i}_M \right)  \right |
 \label{eq:spatialCompactnessDifferentialNumerosityCostTerm}
 \end{equation}
-with $N^t_L$ and $N^t_M$ are the numbers of L-- and M--cones pooled by the RF center of mRGC $t$, respectively.
-
-The $\mathrm{C}^{(t, t_i)}_{\chi_{o}}$ component of Eq.~\ref{eq:spatialCompactnessCostComponent} is a spatial overlap cost component, defined as the inverse of the distance between the centroids, $(P^t, P^{t_i})$, of the cones pooled by the two mRGCs, normalized by the sum of their spatial standard deviations, $(\sigma^t, \sigma^{t_i})$:
+with $N^t_L$ and $N^t_M$ are the numbers of L-- and M--cones pooled by the RF center of mRGC $t$, respectively. The $\mathrm{C}^{(t, t_i)}_{\chi_{o}}$ term  is a measure of the spatial overlap of the two sets of cones pooled by the two mRGCs, and is defined as the inverse of the distance between the centroids, $(P^t, P^{t_i})$, of the sets of pooled cones normalized by the sum of their respective spatial standard deviations, $(\sigma^t, \sigma^{t_i})$:
 %
 \begin{equation}
 \mathrm{C}^{(t, t_i)}_{\chi_{o} } = \displaystyle 1 / \left( \frac{||P^t-P^{t_i}||}{\sigma^t+\sigma^{t_i}} \right)
@@ -1155,7 +1150,7 @@ The $\mathrm{C}^{(t, t_i)}_{\chi_{o}}$ component of Eq.~\ref{eq:spatialCompactne
 %
 A low value of $\mathrm{C}^{(t, t_i)}_{\chi_{o}}$ indicates low overlap between the sets of cones pooled by the examined pair of mRGCs and conversely, a high value indicates a large overlap.
 
-The $\mathrm{C}^{t,t_i}_{\lambda}$ term, in Eq.~\ref{eq:tradeoffCostFunction}, is a cost component quantifying the sum of spectral impurities of the pair of analyzed mRGCs:
+The spectral impurity score, $\mathrm{C}^{t,t_i}_{\lambda}$, in Eq.~\ref{eq:tradeoffCostFunction}, is defined as the sum of spectral impurities of the RF centers of the pair of analyzed mRGCs:
 %
 \begin{equation}
 \mathrm{C}^{t,t_i}_{\lambda} = \displaystyle \mathrm{C}^t_{\lambda} + \mathrm{C}^{t_i}_{\lambda}
@@ -1163,7 +1158,7 @@ The $\mathrm{C}^{t,t_i}_{\lambda}$ term, in Eq.~\ref{eq:tradeoffCostFunction}, i
 \end{equation}
 %
 \noindent
-The spectral impurity, $\mathrm{C}^t_{\lambda}$, quantifies the degree of non-specificity, with regard to the type of cone, in the pooling withing the RF center of an mRGC, and is defined as:
+with $\mathrm{C}^t_{\lambda}$, quantifying the degree of non-specificity, with regard to the type of cone, in the pooling within the RF center of an mRGC, defined as:
 %
 \begin{equation}
 \mathrm{C}^t_{\lambda} = \displaystyle \frac{\min \left( \left [N^t_L, N^t_M \right ] \right) }{N^t_L + N^t_M}
@@ -1172,13 +1167,12 @@ The spectral impurity, $\mathrm{C}^t_{\lambda}$, quantifies the degree of non-sp
 %
 \noindent 
 Values of $\mathrm{C}^t_{\lambda}$ near zero indicate a low amount of mixture of L-- and M--cones, and therefore a RF with a high degree of spectral purity, and conversely, values of $\mathrm{C}^t_{\lambda}$, near 0.5, indicate an equal mixture of L-- and M--cones, and therefore a RF center with a low degree of spectral purity.  
-
-The tradeoff parameter $\phi$ factor in Eq.~\ref{eq:tradeoffCostFunction}, controls how the optimal cone transfer/swap is determined. When $\phi = 1$, cone reassignments/swaps are selected so as to minimize the spatial compactness cost, when $\phi = 0$, cone reassignments are chosen so as to minimize the spectral purity cost, and for intermediate values of $\phi$, cone reassignments are chosen so as to minimize a ratio of the two costs. 
 %
 %
 % --- STAGE 2C ----
 %
 %
+
 \subsection{Divergent cone connections to multiple mRGC RF centers (stage 2C)}
 \label{Section:SupplementalMethods_Stage2C}
 
@@ -1186,14 +1180,14 @@ In the final sub-stage of establishing the RF center connectivity, the exclusivi
 
 According to these observations, neighboring mRGC RF centers abut at approximately one standard deviation of their Gaussian RF profile. One caveat of using these \emph{in-vitro} measurements to establish cone divergence in the model, is that these measurements are only available in the far periphery (30--40 degrees), with no data available for more central locations. Anatomical studies suggest, however, that, in the central retina, there must be little to no divergence of cone signals to mRGCs RF centers, so we chose to implement an eccentricity-varying divergence in our model.
 
-We begin by fitting an ellipsoid to the spatial pooling map of cones that are exclusively connected to the RF center of an mRGC, and extracting the rotation, $\alpha$, and the major/minor axes, $\sigma_x, \sigma_y$ of the fitted ellipsoid. Next, a super-Gaussian ellipsoid, $G(\mathrm{x,y,n})$, defined as:
+To achieve this, we begin by fitting an ellipsoid to the spatial pooling map of cones that are exclusively connected to the RF center of an mRGC, and extract the rotation, $\alpha$, and the major/minor axes, $\sigma_x, \sigma_y$ of the fitted ellipsoid. Next, a supra-Gaussian ellipsoid function, $G(\mathrm{x,y,n})$, defined as:
 %
 \begin{equation}
 \mathrm{G}(\mathrm{x,y,n}) = \exp { \left[ -0.5 \times \left( \sqrt{({\mathrm{y'}}^2 + {\mathrm{y'}}^2}  \right) ^ n \right]}
 \end{equation}
 %
 \noindent
-where:
+with:
 %
 \begin{equation}
 \displaystyle \left[ \begin{array}{c c} \mathrm{x'} & \mathrm{y'}\\ \end{array} \right]
@@ -1202,9 +1196,9 @@ where:
 %
 is computed by scaling the values of $\sigma_x, \sigma_y$ by a common factor, so that the value of $\mathrm{G}(\mathrm{x,y,n})$, evaluated at the most remote exclusively-connected cone(s) is $ k \times e^{-1/2}$. The value of $k$ is determined empirically so that RF maps of nearby mRGCs computed under diffraction-limited optics abut when their sensitivities drop to $e^{-1/2}$ (per \cite{Gauthier2009_ON_OFF_Overlap}). 
 
-By varying the exponent of the super Gaussian, $n$, we model varying degrees of cone divergence. When $n = 10$, we obtain a flat-top Gaussian with very sharp fall-offs, modeling minimal cone divergence. When $n = 2$, we get a standard Gaussian modeling cone divergence that is consistent with the \emph{in-vitro} measurements of RF center overlap at peripheral locations. 
+By varying the exponent of the supra-Gaussian, $n$, we model varying degrees of cone divergence. When $n = 10$, we obtain a flat-top Gaussian with very sharp fall-offs, modeling minimal cone divergence. When $n = 2$, we get a standard Gaussian modeling cone divergence that is consistent with the \emph{in-vitro} measurements of RF center overlap at peripheral locations. 
 
-By varying $n$ with eccentricity using a sigmoidal function we obtain a gradual transition in cone divergence with eccentricity. The slope and mid- point of the sigmoidal variation of $n$ are currently chosen arbitrarily, with the only restrictions that above 15$^o$, $n$ is stable at 2.0, and below 7$^o$, $n$ is stable at 10.0. The weights of divergent cone-mRGC RF center connections are computed by evaluating the super-Gaussian ellipsoid at the positions of all cones in the vicinity of the examined mRGC. 
+By allowing $n$ to vary with eccentricity using a sigmoidal function we obtain a gradual transition in cone divergence with eccentricity. The slope and mid- point of the sigmoidal variation of $n$ are currently chosen arbitrarily, with the only restrictions that above 15$^o$, $n$ is stable at 2.0, and below 7$^o$, $n$ is stable at 10.0. The weights of divergent cone-mRGC RF center connections are computed by evaluating the supra-Gaussian ellipsoid at the positions of all cones in the vicinity of the examined mRGC. 
 %
 %
 \section{Deriving cone weights to the mRGC RF surrounds}
@@ -1218,12 +1212,12 @@ By varying $n$ with eccentricity using a sigmoidal function we obtain a gradual 
 %
 \label{Section:SupplementalMethods_Stage3B}
 
-The optimization of the parameters of the surround cone pooling functions at each iteration is driven by the residual between the visual STF that is computed based on the surround pooling weights at the previous iteration and the Difference of Gaussians model fit to it, $\mathrm{DOG}(\omega)$, which is given by:
+The optimization of the parameters of the surround cone pooling functions at each iteration is driven by the residual between the visual STF that is computed based on the surround pooling weights at the previous iteration and the Difference of Gaussians model fit to it, $\mathrm{DoG}(\omega)$, which is given by:
 \begin{equation}
-\mathrm{DOG}(\omega) = K_c \cdot R_c^2 \cdot \exp{ [-\pi \cdot R_c \cdot \omega]^2 } - K_s \cdot R_s^2 \cdot \exp{ [-\pi \cdot R_s \cdot \omega]^2 }
+\mathrm{DoG}(\omega) = K_c \cdot R_c^2 \cdot \exp{ [-\pi \cdot R_c \cdot \omega]^2 } - K_s \cdot R_s^2 \cdot \exp{ [-\pi \cdot R_s \cdot \omega]^2 }
 \end{equation}
 \noindent 
-This aspect of the optimization captures the observation that DoG models provide a reasonable fit to \emph{in-vivo} mRGC RFs. To ensure adherence to the \emph{in-vivo} data of Croner \& Kaplan, the $\mathrm{DOG}(\omega)$ model fit is constrained so that the ratio of surround to center radii, $R_s/R_c$, and the ratio of surround to center integrated sensitivities, $K_s/K_c \times \left(R_s/R_c\right)^2$, both remain within a specified tolerance value, $\tau = 0.15$, from the  mean values of the corresponding ratios for the Croner \& Kaplan population of macaque mRGCs at the eccentricity of the synthesized mRGC.
+This aspect of the optimization captures the observation that the DoG model provides a reasonable fit to the \emph{in-vivo} measured STFs of macaque mRGCs. To ensure adherence to the \emph{in-vivo} data of Croner \& Kaplan, the $\mathrm{DoG}$ model fit is constrained so that the ratio of surround to center radii, $R_s/R_c$, and the ratio of surround to center integrated sensitivities, $K_s/K_c \times \left(R_s/R_c\right)^2$, both remain within a specified tolerance range from the corresponding macaque data.
 
 Specifically, for the model's $R_s/R_c$ ratio, we enforce
 %
@@ -1242,13 +1236,13 @@ The residual between the visual STF and the Difference of Gaussians model fit to
 %
 %
 
-To ensure that the surround pooling function remains consistent with parameter values observed in macaque H1 cell \cite{PackerDacey2002_H1cellSpatialRFs}, the optimization of $\mathrm W_s(r)$ is constrained so that ratio of radii, $R_{\mathrm{narrow}}/R_{\mathrm{wide}}$, and the ratio of volumes, $V_{\mathrm{narrow}}/V_{\mathrm{wide}} = K_{\mathrm{narrow}}/K_{\mathrm{wide}} \times (R_{\mathrm{narrow}}/R_{\mathrm{wide}})^2$, of the two exponentials both remain within a specified tolerance range of the macaque data. 
+To ensure that the surround pooling function remains consistent with parameter values observed in macaque H1 cell \cite{PackerDacey2002_H1cellSpatialRFs}, the optimization of $\mathrm W_s(r)$ is also constrained so that ratio of radii, $R_{\mathrm{narrow}}/R_{\mathrm{wide}}$, and the ratio of volumes, $V_{\mathrm{narrow}}/V_{\mathrm{wide}} = K_{\mathrm{narrow}}/K_{\mathrm{wide}} \times (R_{\mathrm{narrow}}/R_{\mathrm{wide}})^2$, of the two exponentials both remain within a specified tolerance range of the macaque data. 
 
 In the present work, the tolerance range for $R_{\mathrm{narrow}}/R_{\mathrm{wide}}$ was set to $\left [ 0.07, 0.35 \right ]$ for all mosaics, whereas the tolerance range for $V_{\mathrm{narrow}}/V_{\mathrm{wide}}$ was set to $\left [0.01, 0.6 \right ]$  for mosaics at eccentricities $\le 15^{\circ}$, to $\left [0.3, 0.9 \right ]$ for eccentricities in $15^{\circ} \dots 25^{\circ}$, and to $\left [0.6, 1.3 \right ]$, for eccentricities  $\ge 25^{\circ}$.
 
-The joint manipulation of the tolerance values applied to the parameters of the  $\mathrm{DOG}$ model fit to the $\mathrm{vSTF}$, and to the parameters of the double exponential surround pooling model, $\mathrm W_s(r)$,  allows for different options for deriving spatial pooling functions in synthetic mRGC surrounds. 
+The joint manipulation of the tolerance values applied to the parameters of the $\mathrm{DoG}$ model fit to the $\mathrm{vSTF}$, and to the parameters of the double exponential surround pooling model, $\mathrm W_s(r)$,  allows for different options for deriving spatial pooling functions in synthetic mRGC surrounds. 
 
-One option is to set very strict tolerances on the parameters of DoG model fit to the achieved $\mathrm{vSTF}$, while allowing for a large tolerance in the parameters of $\mathrm W_s(r)$. Results of this choice are depicted in the left-most column of Figure~\ref{Fig:Supplemental_SurroundOptimizationStrategies}. A second option would be to allow medium tolerance levels in both the DoG model fit and the $\mathrm{W}_s(r)$. Results of this choice are depicted in the middle column of Figure~\ref{Fig:Supplemental_SurroundOptimizationStrategies}. A third option would be to enforce strict tolerances in $\mathrm W_s(r)$, for example matching parameters of individual H1 horizontal cells, while allowing for a loose tolerance in the DoG model fit. Results of this choice are depicted in the right column of Figure~\ref{Fig:Supplemental_SurroundOptimizationStrategies}. In the present work, we chose the second option.
+One option is to set very strict tolerances on the parameters of DoG model fit while allowing for a large tolerance in the parameters of $\mathrm W_s(r)$. Results of this choice are depicted in the left-most column of Figure~\ref{Fig:Supplemental_SurroundOptimizationStrategies}. A second option would be to allow medium tolerance levels in both the DoG model fit and the $\mathrm{W}_s(r)$. Results of this choice are depicted in the middle column of Figure~\ref{Fig:Supplemental_SurroundOptimizationStrategies}. A third option would be to enforce strict tolerances in $\mathrm W_s(r)$, for example matching parameters of individual H1 horizontal cells, while allowing for a loose tolerance in the DoG model fit. Results of this choice are depicted in the right column of Figure~\ref{Fig:Supplemental_SurroundOptimizationStrategies}. In the present work, we chose the second option.
 %
 %
 % FIGURE 15
@@ -1256,18 +1250,18 @@ One option is to set very strict tolerances on the parameters of DoG model fit t
 %
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=0.7\textwidth]{figure15.pdf}
+\includegraphics[width=0.76\textwidth]{figure15.pdf}
 \caption{
-{\bf Effect of constraints on surround cone pooling.}\\
-Results from three options for the constraints are depicted. In the left column, we see results from a tight tolerance in the parameters of the $\mathrm{DoG}$ model fit to the $\mathrm{vSTF}$ and a loose tolerance in the parameters of the double exponential surround pooling model, $\mathrm W_s(r)$. In the middle column, we see results from medium tolerance in both sets of parameters. In the right column, we see results from a loose tolerance in the DoG parameters and a tight tolerance in the $\mathrm W_s(r)$ parameters. 
+{\bf Effect of constraints on surround cone pooling.}
+Results from three options for constraining the surround optimization. Left column: tight tolerance in the parameters of the $\mathrm{DoG}$ model fit to the $\mathrm{vSTF}$ and loose tolerance in the parameters of the double exponential surround pooling model, $\mathrm W_s(r)$. Middle column: medium tolerance in both sets of parameters. Right column: loose tolerance in the DoG parameters and tight tolerance in the $\mathrm W_s(r)$ parameters. 
 %
-\textbf{A1-A3:} The tolerance range enforced during model fitting in the joint space of the two surround cone pooling related parameters, $V_{\mathrm{narrow}}/V_{\mathrm{wide}}$ and $R_{\mathrm{narrow}}/R_{\mathrm{wide}}$ for the three examined strategies is depicted by the yellow rectangles. Stars depict the corresponding parameter values in four macaque H1 horizontal cells from the study of Packer \& Dacey. The red disk depicts the achieved parameter values under each strategy for an example foveal synthetic mRGC. 
+\textbf{A1-A3:} The yellow rectangles indicate the tolerance range in the joint space of the two surround cone pooling related parameters, $V_{\mathrm{narrow}}/V_{\mathrm{wide}}$ and $R_{\mathrm{narrow}}/R_{\mathrm{wide}}$. Stars depict the corresponding parameter values in four macaque H1 horizontal cells from the study of Packer \& Dacey. The red disk depicts the achieved parameter values under each strategy for an example foveal synthetic mRGC. 
 %
 \textbf{B1-B3:} Line weighting functions of the retinal space referred center and surround cone pooling weights under the three examined strategies. 
 %
-\textbf{C1-C3:} $\mathrm{vSTF}$ computed under the three strategies are depicted by the gray disks, and the $\mathrm{DOG}$ model fit by the gray lines, with the red and blue lines depicting the center and surround components of the $\mathrm{DOG}$ model fit. 
+\textbf{C1-C3:} The $\mathrm{vSTF}$ computed under the three strategies (gray disks) and corresponding $\mathrm{DOG}$ model fits (gray lines). The red and blue lines depict the center and surround components of the fitted $\mathrm{DOG}$ model. 
 %
-\textbf{D1-D3:} Blue and orange bars depict the residuals for the ratios of visual space - referred $R_s/Rc$ and  $K_s/K_c \times \left(R_s/R_c\right)^2$ ratios. Black circles connected by a black line depict the enforced tolerance range in these ratios. The enforced tolerance value in D3 was $\tau = 0.5$, and is not visualized. Yellow bars depict the $||\mathrm{vSTF}(\omega) - \mathrm{DOG}(\omega)||$ residual.
+\textbf{D1-D3:} Blue and orange bars depict the residuals for the ratios of visual space--referred $R_s/Rc$ and  $K_s/K_c \times \left(R_s/R_c\right)^2$ ratios. Black circles connected by a black line depict the enforced tolerance range in these ratios. The enforced tolerance value in D3 was $\tau = 0.5$, and is not visualized. The orange bars depict the $||\mathrm{vSTF}(\omega) - \mathrm{DOG}(\omega)||$ residual.
 }
 \label{Fig:Supplemental_SurroundOptimizationStrategies}
 \end{figure}
