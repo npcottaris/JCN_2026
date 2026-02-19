@@ -245,7 +245,7 @@ We begin by generating a lattice that represents the $(x,y)$ positions of mRGC R
 %
 %
 \begin{itemize}
-    \item \textbf{Stage 1A:} We estimate the mRGC RF center densities along the four principal meridians (0$^\circ$, 90$^\circ$, 180$^\circ$, and 270$^\circ$). These estimates are based on human data \cite{Watson2014_RGCmodel, CurcioAllen1990_RGCdensityHumanRetina}. We take the ON mRGC density to be half of the total mRGC density, ignoring the possible density differences between ON and OFF mRGCs. The meridian functions are depicted in Fig.~\ref{Fig:LatticeGenerationOverview}A.
+    \item \textbf{Stage 1A:} We estimate the mRGC RF center densities along the four principal meridians (0$^\circ$, 90$^\circ$, 180$^\circ$, and 270$^\circ$). These estimates are based on human data \cite{Watson2014_RGCmodel, CurcioAllen1990_RGCdensityHumanRetina}. We take the ON--center mRGC density to be half of the total mRGC density, ignoring the possible density differences between ON-- and OFF--center mRGCs. The meridian functions are depicted in Fig.~\ref{Fig:LatticeGenerationOverview}A.
     %
     \item \textbf{Stage 1B:} We generate a continuous, two-dimensional map representing the mRGC RF density map, which is depicted in Fig.~\ref{Fig:LatticeGenerationOverview}B. This map is created by linearly interpolating the meridian estimates, and it serves as a target for the lattice synthesis algorithm in the next stage.
     %
@@ -263,7 +263,7 @@ The same procedure is used to generate the lattice that represents the $(x,y)$ p
 \subsection{Connecting cones to mRGC RF centers (Stage 2)} 
 \label{Section:ConnectingConesToRGCRFcenters}
 %
-The connections between cones and mRGC centers are constrained by (1) anatomical data across the retina, specifically, the ratio of densities of mRGC RF centers to cones \cite{Watson2014_RGCmodel}, and (2) \emph{in-vitro} physiological data from peripheral retina, that (a) indicate that, unlike OFF--center mRGCs, which draw indiscriminately from all three cone types \cite{Klug2003_SconeOffMidget, Field2010_FunctionalConnectivitySingleCones, Patterson2019_SconeCircuitEdgeDetection}, ON--center mRGCs draw only from L-- and M--cones, and (b) quantify the degree of RF center overlap between neighboring mRGCs \cite{Gauthier2009_ON_OFF_Overlap}. The connectivity between the cone mosaic and the RF centers of the ON mRGC mosaic is established in 3 sub-stages, summarized here. 
+The connections between cones and mRGC centers are constrained by (1) anatomical data across the retina, specifically, the ratio of densities of mRGC RF centers to cones \cite{Watson2014_RGCmodel}, and (2) \emph{in-vitro} physiological data from peripheral retina, that (a) indicate that, unlike OFF--center mRGCs, which draw indiscriminately from all three cone types \cite{Klug2003_SconeOffMidget, Field2010_FunctionalConnectivitySingleCones, Patterson2019_SconeCircuitEdgeDetection}, ON--center mRGCs draw only from L-- and M--cones, and (b) quantify the degree of RF center overlap between neighboring mRGCs \cite{Gauthier2009_ON_OFF_Overlap}. The connectivity between the cone mosaic and the RF centers of the ON--center mRGC mosaic is established in 3 sub-stages, summarized here. 
 %
  \begin{itemize}
     \item \textbf{Stage 2A:} In the first substage, each L-- and M--cone in the input cone mosaic gets connected to a single mRGC RF center; an mRGC RF center can receive input from more than one cone. At this substage, each connected cone has unit connection weight. S-cones are not connected because they do not contribute to ON--center mRGCs. Algorithmic details regarding this substage are provided in Supplemental Section \ref{Section:SupplementalMethods_Stage2A}.
@@ -934,7 +934,7 @@ We employed an early version of the current model to interpret measurements of f
 
 We are currently employing the model to assess inferences regarding the wiring of cone inputs to mRGC RF surrounds based on spatial RF measurements conducted \emph{in-vivo} \cite{Reid1992_ConeInputsToMRGCs}. Specifically, we are analyzing the substantial effect that chromatic aberration plays in shaping mRGC responses to cone isolating stimuli, and how these effects can help reconcile tension between results from \emph{in-vivo} physiology on the one hand and results from anatomy and \emph{in-vitro} physiology on the other \cite{Cottaris2024_mRGCs_ConeSelectiveOrNot}. 
 
-In parallel on-going work, we deploy the model to understand how the spatio-chromatic properties of the ON--center mRGC mosaic influence the information available for human spatio-chromatic vision, by applying computational observer analyses to the mRGC representation we compute \cite{Hong2024_CSFlimits, Oh2025_VariationsInHumanOpticsExplainVariationInRedGreenCSF}. Although additional model components will influence this representation, for threshold tasks where the stimulus perturbations are small, we expect the linear approximation to hold sufficiently well that the results will be informative. 
+In parallel on-going work, we deploy the model to understand how the spatio-chromatic properties of the ON--center mRGC mosaic influence the information available for human spatio-chromatic vision, by applying computational observer analyses to the mRGC representation we compute \cite{Hong2024_CSFlimits, Oh2025_VariationsInHumanOpticsExplainVariationInRedGreenCSF}. Although additional model components will influence this representation, for threshold tasks, where the stimulus perturbations are small, we expect the linear approximation to hold sufficiently well that the results will be informative. 
 
 In this work, we presented examples of this type of computation, to illustrate how the representation at the mRGCs differs from that at the cone mosaic and how this varies with eccentricity.
 %
@@ -953,7 +953,7 @@ The need to mix data across the two closely related species produces tension in 
 %
 \subsubsection{Noise, nonlinearities and temporal dynamics}
 \label{Section:Extensions}
-Although the current model captures fundamental aspects of the visual representation at the level of the mosaic of ON mRGCs, there are known characteristics of mRGCs that it does not account for. These include static and spatial nonlinearities, temporal filtering, spike generation, and physiologically constrained response noise. The modeling framework we developed is extensible however, so that these components may be included through future work.
+Although the current model captures fundamental aspects of the visual representation at the level of the mosaic of ON--center mRGCs, there are known characteristics of mRGCs that it does not account for. These include static and spatial nonlinearities, temporal filtering, spike generation, and physiologically constrained response noise. The modeling framework we developed is extensible however, so that these components may be included through future work.
 
 Response variability models are available for macaque mRGCs, as descriptions of spike generation mechanisms \cite{Croner93_RGCresponseVariability, Lee2004_RGCresponseVariability, Pillow2005_PredictionDecodingRGCresponsesProbabilisticSpikingModel}. In addition, we can incorporate 
 nonlinearities, such as (a) light adaptation effects  introduced through the phototransduction cascade \cite{AngueyraRieke2013_Photocurrent}, (b) compressive and expansive static nonlinearities in the output of mRGCs \cite{Pillow2005_PredictionDecodingRGCresponsesProbabilisticSpikingModel, Raghavan2023_ContrastGainControlMacaqueLGN}, and (c) spatial nonlinearities introduced by rectifying sub-units within the RFs of mRGCs \cite{Freeman2015_NonLinearSpatialSummationMidgetOFF, Rieke2024_NonLinearSubunitsInRGCSurrounds}. Explicit inclusion of photocurrent-based responses in the input to the mRGCs introduces a temporal component to the response model \cite{AngueyraRieke2013_Photocurrent}. In addition, a second temporal filter may be added, such that when combined with the photocurrent filter will yield the bandpass filter characteristics observed in macaque mRGCs \cite{Benardete1997_PcellRF_LinearDynamics}.
@@ -965,23 +965,25 @@ The framework we developed is designed so that it would be possible to interpose
 %
 %
 \subsubsection{OFF mRGC mosaic}
-Because we model the linear RF, the distinction between ON and OFF mRGCs is subtle. However, our model should be thought of as a model of only the ON mRGCs because the synthetic cells only pool signals from L-- and M--cones. This is believed true for ON mRGCs, but recent evidence suggests that OFF mRGCs draw upon all three types of cones in their RF centers \cite{Klug2003_SconeOffMidget, Field2010_FunctionalConnectivitySingleCones, Patterson2019_SconeCircuitEdgeDetection}. Incorporating S-cone input into an OFF mRGC model is straightforward.
+Because we model the linear RF, the distinction between ON and OFF mRGCs is subtle. However, our model should be thought of as a model of only the ON--center mRGCs because the synthetic cells only pool signals from L-- and M--cones. This is believed true for ON--center mRGCs, but recent evidence suggests that OFF--center mRGCs draw upon all three types of cones in their RF centers \cite{Klug2003_SconeOffMidget, Field2010_FunctionalConnectivitySingleCones, Patterson2019_SconeCircuitEdgeDetection}. Incorporating S-cone input into an OFF--center mRGC model is straightforward.
 
-Another question that arises when considering a model of OFF  mRGC mosaic is how to split the density of mRGCs in two populations at different eccentricities. In the current model, the ON mRGC density was assumed to be half of all mRGCs across all eccentricities. This seems reasonable for central retina where mRGC centers draw primarily on a single cone and where anatomical evidence suggests that each cone provides input to the center of one ON and one OFF midget bipolar cell.
-However, there is evidence that the RFs of peripheral ON midget (and parasol) RGCs are larger than their OFF counterparts in both human and macaque retinas \cite{Kling2020_BioRxiv_FunctionalOrganizationOfMidgetAndParasolRGCs}.
-This implies that the density of ON RGC cells might be lower in the periphery than that of OFF cells, given that ON and OFF mRGCs have similar RF overlap \cite{Gauthier2009_ON_OFF_Overlap}. One idea is to treat the asymmetry between ON and OFF mRGC RF densities in an eccentricity-dependent manner, similar to the way we encoded a variable-with-eccentricity RF center overlap. 
+Another question that arises when considering a model of the OFF--center mRGC mosaic is how to split the density of mRGCs in two populations at different eccentricities. In the current model, the density of ON--center mRGCs was assumed to be half of the total mRGC density across all eccentricities. This seems reasonable for central retina where mRGC centers draw primarily on a single cone and where anatomical evidence suggests that each cone provides input to the center of one ON--center and one OFF--center midget bipolar cell.
+However, there is evidence that the RFs of peripheral ON--center midget (and parasol) RGCs are larger than their OFF--center counterparts in both human and macaque retinas \cite{Kling2020_BioRxiv_FunctionalOrganizationOfMidgetAndParasolRGCs}.
+This implies that the density of ON--center RGC cells might be lower in the periphery than that of OFF--center cells, given that ON-- and OFF--center mRGCs have similar RF overlap \cite{Gauthier2009_ON_OFF_Overlap}. One idea is to treat this asymmetry in mRGC density in an eccentricity-dependent manner, similar to the way we encoded a variable-with-eccentricity RF center overlap. 
 
-Finally, when adding an OFF mRGC mosaic one should allow for the possibility of coordination between the ON and the OFF submosaics, to account for recent observations regarding systematic shifts in the spatial layouts of ON and OFF mRGCs \cite{Field2021_ON_OFF_Mosaic_Coordination}.
+Finally, when adding an OFF--center mRGC mosaic, one should allow for the possibility of coordination between the ON-- and the OFF--center mosaics, to account for recent observations regarding systematic shifts in the spatial layouts of ON-- and OFF--center mRGCs \cite{Field2021_ON_OFF_Mosaic_Coordination}.
 
 \subsection*{Using the software}
 %
-The developed software for synthesizing ON mRGCm mosaics across the retina and for computing with them is part of ISETbio and is freely available at \\{\tt{https://github.com/isetbio/isetbio}}. An introduction to using the mRGCmosaic software is available at:\\
-{\tt{https://github.com/isetbio/isetbio/wiki/Retinal-ganglion-cell-(RGC)-mosaics}}, and a number of MATLAB tutorials specific to the mRGCmosaic can be found at {\tt{https://github.com/isetbio/isetbio/tree/main/tutorials/mrgc}}. 
+The developed software for synthesizing ON--center mRGC mosaics across the retina and for computing with them is part of ISETbio and is freely available at \\{\tt{https://github.com/isetbio/isetbio}}. An introduction to using the mRGCmosaic software is available at:\\
+{\tt{https://github.com/isetbio/isetbio/wiki/Retinal-ganglion-cell-(RGC)-mosaics}}.
 
-These tutorials demonstrate (a) how to use mosaics of ON mRGCs that have been synthesized at a number of eccentricities, and (b) how to build and validate mRGC mosaics at any desired eccentricity, using a number of design choices. A summary of current available tutorials is shown in Table \ref{Table:Tutorials}.
+A number of MATLAB tutorials specific to the ON--center mRGCmosaic can be found at {\tt{https://github.com/isetbio/isetbio/tree/main/tutorials/mrgc}}. 
+
+These tutorials demonstrate (a) how to use mosaics of ON--center mRGCs that we have already synthesized at a number of eccentricities, and (b) how to build and validate ON--center mRGC mosaics at any desired eccentricity, using a number of design choices. A summary of current available tutorials is shown in Table \ref{Table:Tutorials}.
 
 \begin{table}
-\caption{\textbf{List of tutorials for computing with mRGC mosaics and de novo synthesis of mRGC mosaics.}}
+\caption{\textbf{List of tutorials for computing with existing mRGC mosaics and for \emph{de novo} synthesis of mRGC mosaics.}}
 \begin{tabular}{p{2.0in} p{2.4in} }
 \toprule
 \textbf{Tutorial name} & \textbf{Scope}\\
@@ -1050,7 +1052,7 @@ Not applicable
 Not applicable
 
 \subsection*{Data availability}
-Datasets (ON mRGCmosaics) generated during the current study are available at:\\  {\url{https://github.com/isetbio/isetbio/tree/main/isettools/ganglioncells/data/prebakedRGCmosaics/ONmRGCmosaics}}\\
+Datasets of synthesized ON--center mRGCmosaics generated during the current study are available at:\\  {\url{https://github.com/isetbio/isetbio/tree/main/isettools/ganglioncells/data/prebakedRGCmosaics/ONmRGCmosaics}}\\
 
 
 \subsection*{Materials availability}
@@ -1064,7 +1066,7 @@ An introduction to using the  software is available at:\\
 {\url{https://github.com/isetbio/isetbio/wiki/Retinal-ganglion-cell-(RGC)-mosaics}}\\
 
 \subsection*{Author contribution}
-NPC: conceptualization, mosaic synthesis \& optimization algorithms, data curation, model validation, visualization, coding, writing of original draft\\
+NPC: conceptualization, mosaic synthesis \& optimization algorithms, data curation, model validation, visualization, coding, writing of original manuscript\\
 DHB: conceptualization, coding, reviewing and editing of manuscript\\
 BW: conceptualization, coding,  reviewing and editing of manuscript\\
 %
@@ -1092,7 +1094,7 @@ BW: conceptualization, coding,  reviewing and editing of manuscript\\
 \subsection{Local topology--based convergent connections (stage 2A)}
 \label{Section:SupplementalMethods_Stage2A}
 
-During the first sub-stage of cone to mRGC RF center connectivity, cones are connected to single mRGC RF centers  based on the local topology of their respective lattices. Starting with the cell whose RF center is at most central location of the mRGC lattice, we connect $n_{\mathrm pool}(\epsilon)$ number of L-- and M--cones to it, where:
+During the first sub-stage of cone-to-mRGC RF center connectivity, cones are connected to single mRGC RF centers  based on the local topology of their respective lattices. Starting with the cell whose RF center is at most central location of the mRGC lattice, we connect $n_{\mathrm pool}(\epsilon)$ number of L-- and M--cones to it, where:
 %
 \begin{equation}
 \label{eq:conesPerRFcenter}
@@ -1101,9 +1103,9 @@ n_{\mathrm pool}(\epsilon) = \displaystyle \lfloor \frac{\mathrm{D}_{\mathrm{con
 %
 with $\mathrm{D}_{\mathrm{cones}}(\epsilon)$ and $\mathrm{D}_{\mathrm{mRGC RF}}(\epsilon)$ being the local spatial densities of the cone mosaic and of the mRGC RF centers, respectively, at the eccentricity, $\epsilon$, of the target mRGC. We draw from the nearest cones that have not yet been connected and whose distance to the mRGC RF center does not exceed a fraction of the local mRGC RF center spacing. This fraction is a parameter of the model and for the work presented here was set to 0.6. 
 
-Continuing with these assignments of cones to mRGC RF centers, we move outward to more peripheral locations in the mRGC mosaic, connecting cones to each mRGC RF center. Any L-- and M--cones that remain unconnected at the end of this sub-stage are then connected to their nearest mRGC RF center, so that all cones are connected to one mRGC RF center. 
+Continuing with these assignments of cones to mRGC RF centers, we move outward to more peripheral locations in the mRGC mosaic, exclusively connecting cones to mRGC RF centers. Any L-- and M--cones that remain unconnected at the end of this sub-stage get connected to their nearest mRGC RF center, so that all cones are connected to one mRGC RF center. 
 
-This sub-stage can result in local inhomogeneities in both the number of cones and the type of cones pooled within neighboring mRGC RF centers. These inhomonegeities are smoothed out as part of the next sub-stage.
+This sub-stage can result in local inhomogeneities in both the number of cones and the type of cones pooled within neighboring mRGC RF centers. These inhomonegeities are smoothed out at stage 2B.
 %
 %
 % --- STAGE 2B ----
@@ -1122,7 +1124,7 @@ Cone reassignments from the candidate donor mRGCs to the target mRGC are execute
 
 Once the optimal cone transfers for each mRGC of the targeted input cone numerosity are executed, we move to the next pass, examining possible transfers from neighboring mRGCs of lower input cone numerosity than before, but still higher than the input cone numerosity of the targeted mRGCs. Once all passes are executed, this process is repeated, now targeting mRGCs with increasing input cone numerosity, until all input cone numerosities have been targeted.
 
-In the second step, we only allow for cone swaps between an mRGC RF center and one of its neighbors. For each mRGC of the targeted input cone numerosity, we determine its 6 closest neighbors, but now without regard to their input cone numerosity. For each of these neighboring mRGCs, we evaluate the cost function, $\mathrm{C}$, for all possible combinations of cones from the target mRGC and cones from the neighboring mRGC and pick the combination that minimizes $\mathrm{C}$. The selected cone swap is executed only if the post-swap value of $\mathrm{C}$ is lower than its pre-swap value. Multiple passes through the entire mRGC mosaic, are executed, with each pass targeting mRGCs with progressively higher input cone numerosity.
+In the second step, we only allow for cone swaps between an mRGC RF center and one of its neighbors. For each mRGC of the targeted input cone numerosity, we determine its 6 closest neighbors, but now without regard to their input cone numerosity. For each of these neighboring mRGCs, we evaluate the cost function, $\mathrm{C}$, for all possible combinations of cones from the target mRGC and cones from the neighboring mRGC and pick the combination that minimizes $\mathrm{C}$. The selected cone swap is executed only if the post-swap value of $\mathrm{C}$ is lower than its pre-swap value. Multiple passes through the entire mRGC mosaic are executed, with each pass targeting mRGCs with progressively higher input cone numerosity.
 
 The cost function, $\mathrm{C}$, employed to determine the optimal transfer/swap is based on the position and types of the cones pooled by the target mRGC, $t$, and the examined neighboring mRGC, $t_i$. For each examined pair of mRGCs, $(t,t_i)$, $\mathrm{C}^{(t,t_i)}$ is defined as:
 %
@@ -1132,9 +1134,9 @@ The cost function, $\mathrm{C}$, employed to determine the optimal transfer/swap
 \end{equation}
 %
 \noindent
-where $\mathrm{C}^{(t,t_i)}_{\chi}$ quantifies the degree of spatial incompactness, $\mathrm{C}^{(t,t_i)}_{\lambda}$ quantifies the degree of spectral impurity. The $\phi$ parameter controls the desired trade-off between spatial incompactness and spectral impurity of the RF centers. When $\phi = 1$, cone reassignments/swaps are selected so as to minimize the spatial incompactness score, when $\phi = 0$, cone reassignments are chosen so as to minimize the spectral impurity score, and for intermediate values of $\phi$, cone reassignments are chosen so as to minimize a ratio of the two scores.
+where $\mathrm{C}^{(t,t_i)}_{\chi}$ quantifies the degree of spatial incompactness, $\mathrm{C}^{(t,t_i)}_{\lambda}$ quantifies the degree of spectral impurity. The $\phi$ parameter controls the desired trade-off between these two RF center attributes. When $\phi = 1$, cone reassignments/swaps are selected so as to minimize the degree of spatial incompactness, when $\phi = 0$, cone reassignments are chosen so as to minimize the degree of spectral impurity, and for intermediate values of $\phi$, cone reassignments are chosen so as to minimize a weighted sum of the two.
 
-The spatial incompactness score, $\mathrm{C}^{(t,t_i)}_{\chi}$, in Eq.~\ref{eq:tradeoffCostFunction} is defined as: 
+The degree of spatial incompactness, $\mathrm{C}^{(t,t_i)}_{\chi}$, in Eq.~\ref{eq:tradeoffCostFunction} is defined as: 
 \begin{equation}
 \mathrm{C}^{(t,t_i)}_{\chi} = \mathrm{C}^{(t, t_i)}_{\chi_{N}} + \mathrm{C}^{(t, t_i)}_{\chi_{o}}
 \label{eq:spatialCompactnessCostComponent}
@@ -1156,7 +1158,7 @@ with $N^t_L$ and $N^t_M$ are the numbers of L-- and M--cones pooled by the RF ce
 %
 A low value of $\mathrm{C}^{(t, t_i)}_{\chi_{o}}$ indicates low overlap between the sets of cones pooled by the examined pair of mRGCs and conversely, a high value indicates a large overlap.
 
-The spectral impurity score, $\mathrm{C}^{t,t_i}_{\lambda}$, in Eq.~\ref{eq:tradeoffCostFunction}, is defined as the sum of spectral impurities of the RF centers of the pair of analyzed mRGCs:
+The degree of spectral impurity, $\mathrm{C}^{t,t_i}_{\lambda}$, in Eq.~\ref{eq:tradeoffCostFunction}, is defined as the sum of spectral impurities of the RF centers of the pair of analyzed mRGCs:
 %
 \begin{equation}
 \mathrm{C}^{t,t_i}_{\lambda} = \displaystyle \mathrm{C}^t_{\lambda} + \mathrm{C}^{t_i}_{\lambda}
@@ -1184,9 +1186,9 @@ Values of $\mathrm{C}^t_{\lambda}$ near zero indicate a low amount of mixture of
 
 In the final sub-stage of establishing the RF center connectivity, the exclusivity of connections is relaxed, and cone connections are allowed to diverge to more than one mRGC RF center. This divergence is guided by \emph{in-vitro} measurements of mRGC RF center overlap in the macaque \cite{Gauthier2009_ON_OFF_Overlap}. 
 
-According to these observations, neighboring mRGC RF centers abut at approximately one standard deviation of their Gaussian RF profile. One caveat of using these \emph{in-vitro} measurements to establish cone divergence in the model, is that these measurements are only available in the far periphery (30--40 degrees), with no data available for more central locations. Anatomical studies suggest, however, that, in the central retina, there must be little to no divergence of cone signals to mRGCs RF centers, so we chose to implement an eccentricity-varying divergence in our model.
+According to these observations, neighboring mRGC RF centers abut at approximately one standard deviation of their Gaussian RF profile. One caveat of using these \emph{in-vitro} measurements to establish cone divergence in the model, is that these measurements are only available in the far periphery (30--40 degrees), with no data available for more central locations. Anatomical studies suggest, however, that, in the central retina, there must be little to no divergence of cone signals to mRGCs RF centers, so we chose to implement an eccentricity-varying divergence in our model to bridge this gap.
 
-To achieve this, we begin by fitting an ellipsoid to the spatial pooling map of cones that are exclusively connected to the RF center of an mRGC, and extract the rotation, $\alpha$, and the major/minor axes, $\sigma_x, \sigma_y$ of the fitted ellipsoid. Next, a supra-Gaussian ellipsoid function, $G(\mathrm{x,y,n})$, defined as:
+To achieve this, we begin by fitting an ellipsoid to the spatial pooling map of cones that are exclusively connected to the RF center of an mRGC, and extract the rotation, $\alpha$, and the major/minor radii, $\sigma_x, \sigma_y$ of the fitted ellipsoid. Next, a supra-Gaussian ellipsoid function, $G(\mathrm{x,y,n})$, defined as:
 %
 \begin{equation}
 \mathrm{G}(\mathrm{x,y,n}) = \exp { \left[ -0.5 \times \left( \sqrt{({\mathrm{y'}}^2 + {\mathrm{y'}}^2}  \right) ^ n \right]}
@@ -1242,7 +1244,7 @@ The residual between the visual STF and the Difference of Gaussians model fit to
 %
 %
 
-To ensure that the surround pooling function remains consistent with parameter values observed in macaque H1 cell \cite{PackerDacey2002_H1cellSpatialRFs}, the optimization of $\mathrm W_s(r)$ is also constrained so that ratio of radii, $R_{\mathrm{narrow}}/R_{\mathrm{wide}}$, and the ratio of volumes, $V_{\mathrm{narrow}}/V_{\mathrm{wide}} = K_{\mathrm{narrow}}/K_{\mathrm{wide}} \times (R_{\mathrm{narrow}}/R_{\mathrm{wide}})^2$, of the two exponentials both remain within a specified tolerance range of the macaque data. 
+To ensure that the surround pooling function remains consistent with the parameter values observed in macaque H1 cells \cite{PackerDacey2002_H1cellSpatialRFs}, the optimization of $\mathrm W_s(r)$ is also constrained so that ratio of radii, $R_{\mathrm{narrow}}/R_{\mathrm{wide}}$, and the ratio of volumes, $V_{\mathrm{narrow}}/V_{\mathrm{wide}} = K_{\mathrm{narrow}}/K_{\mathrm{wide}} \times (R_{\mathrm{narrow}}/R_{\mathrm{wide}})^2$, of the two exponentials both remain within a specified tolerance range of the macaque data. 
 
 In the present work, the tolerance range for $R_{\mathrm{narrow}}/R_{\mathrm{wide}}$ was set to $\left [ 0.07, 0.35 \right ]$ for all mosaics, whereas the tolerance range for $V_{\mathrm{narrow}}/V_{\mathrm{wide}}$ was set to $\left [0.01, 0.6 \right ]$  for mosaics at eccentricities $\le 15^{\circ}$, to $\left [0.3, 0.9 \right ]$ for eccentricities in $15^{\circ} \dots 25^{\circ}$, and to $\left [0.6, 1.3 \right ]$, for eccentricities  $\ge 25^{\circ}$.
 
@@ -1263,11 +1265,11 @@ Results from three options for constraining the surround optimization. Left colu
 %
 \textbf{A1-A3:} The yellow rectangles indicate the tolerance range in the joint space of the two surround cone pooling related parameters, $V_{\mathrm{narrow}}/V_{\mathrm{wide}}$ and $R_{\mathrm{narrow}}/R_{\mathrm{wide}}$. Stars depict the corresponding parameter values in four macaque H1 horizontal cells from the study of Packer \& Dacey. The red disk depicts the achieved parameter values under each strategy for an example foveal synthetic mRGC. 
 %
-\textbf{B1-B3:} Line weighting functions of the retinal space referred center and surround cone pooling weights under the three examined strategies. 
+\textbf{B1-B3:} Line weighting functions of the retinal space--referred center and surround cone pooling weights under the three examined strategies. 
 %
 \textbf{C1-C3:} The $\mathrm{vSTF}$ computed under the three strategies (gray disks) and corresponding $\mathrm{DOG}$ model fits (gray lines). The red and blue lines depict the center and surround components of the fitted $\mathrm{DOG}$ model. 
 %
-\textbf{D1-D3:} Blue and orange bars depict the residuals for the ratios of visual space--referred $R_s/Rc$ and  $K_s/K_c \times \left(R_s/R_c\right)^2$ ratios. Black circles connected by a black line depict the enforced tolerance range in these ratios. The enforced tolerance value in D3 was $\tau = 0.5$, and is not visualized. The orange bars depict the $||\mathrm{vSTF}(\omega) - \mathrm{DOG}(\omega)||$ residual.
+\textbf{D1-D3:} Blue and orange bars depict the residuals for the ratios of visual space--referred $R_s/R_c$ and  $K_s/K_c \times \left(R_s/R_c\right)^2$ ratios. Black circles connected by a black line depict the enforced tolerance range in these ratios. The enforced tolerance value in D3 was $\tau = 0.5$, and is not visualized. The orange bars depict the $||\mathrm{vSTF}(\omega) - \mathrm{DOG}(\omega)||$ residual.
 }
 \label{Fig:Supplemental_SurroundOptimizationStrategies}
 \end{figure}
